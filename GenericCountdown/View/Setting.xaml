@@ -6,6 +6,9 @@
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                             xmlns:ignore="http://www.ignore.com"
+                            xmlns:common="clr-namespace:GenericCountdown.Commons"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            xmlns:converter="clr-namespace:GenericCountdown.Converters"
                             mc:Ignorable="d ignore"
                             FontFamily="{StaticResource PhoneFontFamilyNormal}"
                             FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,20 +18,268 @@
                             shell:SystemTray.IsVisible="True"
                             DataContext="{Binding Setting, Source={StaticResource Locator}}">
 
-<!--LayoutRoot is the root grid where all page content is placed-->
+
+    <phone:PhoneApplicationPage.Resources>
+        <common:SmartListPicker x:Key="SmartListPicker"/>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <DataTemplate x:Name="PickerItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Name="PickerFullModeItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AlbumInfoTemplate">
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source=" " Margin="5" Height="80" Width="80" Stretch="UniformToFill"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock FontWeight="Normal" Text="{Binding Name}" Margin="10,0,0,0" FontSize="25" Foreground="Black"/>
+                            <TextBlock FontWeight="Normal" Text="{Binding Artist}" Margin="10,0,0,0" FontSize="20" Foreground="Black" Opacity="0.75"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        
+        <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="#17355F"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,3,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="#014993"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+    
+    
+    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
-          Background="Transparent">
+          Background="Transparent"
+          DataContext="{Binding CurrentCountdownItem, Source={StaticResource Locator}}">
 
-        <phone:Panorama Title="my application">
+        <phone:Panorama Title="settings">
 
-            <!--Panorama item one-->
-            <phone:PanoramaItem Header="item1">
-                <Grid/>
+            <phone:PanoramaItem Header="Countdown">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="Event Name" Margin="12,0,12,0"/>
+                    <toolkit:PhoneTextBox Grid.Row="1" 
+                                          Text="{Binding EventName, Mode=TwoWay}" 
+                                          MaxLength="35" />
+                    <TextBlock Grid.Row="2" Text="Type" Margin="12,0,12,0"/>
+
+                    <!--<toolkit:ListPicker ExpansionMode="FullScreenOnly"  
+                                        Margin="1,0,10,10" 
+                                        ItemsSource="{Binding DataContext.LocalCities,ElementName=page}" 
+                                        DisplayMemberPath="Name"  
+                                        SelectedItem="{Binding DataContext.SelectedCity,ElementName=page,Mode=TwoWay}"  
+                                        BorderBrush="White" 
+                                        FullModeHeader="Cities" 
+                                        Grid.Row="7" >
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" 
+                                           FontSize="25" 
+                                           Margin="10" 
+                                           FontWeight="Bold" ></TextBlock>
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>-->
+
+
+                    <!--<toolkit:ListPicker  ExpansionMode="ExpansionAllowed" 
+                                             Margin="10,0,10,10" 
+                                             Grid.Row="3" 
+                                             ItemsSource="{Binding Setting.CountdownTypes}" 
+                                             DataContext="{Binding Source={StaticResource Locator}}"
+                                             SelectedItem="{Binding SelectedCountdownType,Mode=TwoWay}"
+                                             DisplayMemberPath="Name" >-->
+                                         <!--ItemTemplate="{StaticResource PickerItemTemplate}">-->
+                        <!--<toolkit:ListPicker.ExpansionMode>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                </StackPanel>
+                                --><!--<TextBlock Text="{Binding Name}" 
+                                           FontSize="25" 
+                                           Margin="10" 
+                                           FontWeight="Bold" ></TextBlock>--><!--
+                            </DataTemplate>
+                        </toolkit:ListPicker.ExpansionMode>-->
+                    <!--</toolkit:ListPicker>-->
+                </Grid>
             </phone:PanoramaItem>
 
-            <!--Panorama item two-->
-            <phone:PanoramaItem Header="item2">
-                <Grid/>
+            <phone:PanoramaItem Header="Date &amp; Time">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <toolkit:DatePicker  Grid.Row="0"  
+                                         Header="Date"  
+                                         Value="{Binding EventDateTime,Mode=TwoWay}"    
+                                         ValueStringFormat="{}{0:D}" />
+                    <toolkit:TimePicker  Grid.Row="1"  
+                                         Header="Time"  
+                                         Value="{Binding EventDateTime,Mode=TwoWay}"    
+                                         ValueStringFormat="{}{0:T}" />
+
+                </Grid>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="Select Units">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Units" Margin="12,0,12,0"/>
+                    <!--<common:SmartListPicker Grid.Row="1" 
+                                            Margin="10,0,10,10" 
+                                            x:Name="unitListPicker" 
+                                            SelectionMode="Multiple" 
+                                            ItemsSource="{Binding Setting.AllUnits, Source={StaticResource Locator}}"
+                                            SelectedItems="{Binding SelectedUnits, Mode=TwoWay}"
+                                            FullModeHeader="Choose Units" 
+                                            ItemTemplate="{StaticResource UnitsTemplate1}" 
+                                            FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"/>-->
+                </Grid>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="Choose Photo">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" 
+                                   Text="In App" 
+                                   Margin="12,0,12,0"/>
+
+                        <ListBox Grid.Row="1"
+                                 x:Name="PhotoPicker"
+                                 SelectionMode="Single" 
+                                 SelectionChanged="PhotoPicker_SelectionChanged"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                 ItemsSource="{Binding Setting.Images}" 
+                                 SelectedItem="{Binding SelectedImage}" 
+                                 DataContext="{Binding Source={StaticResource Locator}}"
+                                 ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
+                                 MinHeight="100">
+
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!--<toolkit:WrapPanel/>-->
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding}" Width="50" Margin="5"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+
+                        <TextBlock Grid.Row="2" 
+                                   Text="From Photo Library" 
+                                   Margin="12,0,12,0"/>
+                        
+                        <TextBox Grid.Row="3" 
+                                 x:Name="PhotoLibraryPicker"
+                                 Tap="PhotoLibraryPicker_Tap"
+                                 Text="{Binding SelectedImage, Mode=TwoWay}"/>
+
+                    </Grid>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="Set Music">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    
+                    <TextBlock Grid.Row="0" 
+                                   Text="Play On Start" 
+                                   x:Name="bgPic"
+                                   Margin="12,0,12,0"/>
+                        <toolkit:ToggleSwitch Grid.Row="1" 
+                                              IsChecked="{Binding Music, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="2" 
+                                   Text="Music File" 
+                                   Margin="12,0,12,0"/>
+                    <TextBox Grid.Row="3" 
+                                 x:Name="MusicLibraryPicker"
+                                 Tap="MusicLibraryPicker_Tap"
+                                 Text="{Binding MusicFile, Mode=TwoWay}"/>
+                </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>
         

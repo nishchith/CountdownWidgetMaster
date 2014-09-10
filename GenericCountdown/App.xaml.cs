@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using GenericCountdown.Resources;
 using GenericCountdown.ViewModel;
+using GenericCountdown.Model;
 
 namespace GenericCountdown
 {
@@ -56,7 +57,7 @@ namespace GenericCountdown
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
+            
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -130,6 +131,8 @@ namespace GenericCountdown
 
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
+
+            GenericCountdown.ViewModel.ViewModelLocator.Navigation = RootFrame;
         }
 
         // Do not add any additional code to this method

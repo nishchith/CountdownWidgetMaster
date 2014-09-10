@@ -2,6 +2,10 @@
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using GenericCountdown.Model;
+using System;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace GenericCountdown.ViewModel
 {
@@ -11,6 +15,17 @@ namespace GenericCountdown.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        public static System.Windows.Controls.Frame Navigation { get; set; }
+
+        public static CountdownDataContext countdownDB;
+
+        public static CountdownItem CurrentCountdownItem { get; set; }
+
+        public static ObservableCollection<CountdownItem> AllCountdownItems { get; set; }
+
+        public static BitmapImage SelectedImage { get; set; }
+
+
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
@@ -57,5 +72,25 @@ namespace GenericCountdown.ViewModel
         public static void Cleanup()
         {
         }
+
+
+        public static void LoadCollectionsFromDatabase()
+        {
+            var countdownItemsInDB = from CountdownItem countdown in countdownDB.CountdownTable
+                                     select countdown;
+
+            AllCountdownItems = new ObservableCollection<CountdownItem>(countdownItemsInDB);
+
+            //LoadCurrentItems();
+            //this.LoadTickerItems();
+        }
+
+        // Write changes in the data context to the database.
+        public static void SaveCountdown()
+        {
+            countdownDB.SubmitChanges();
+        }
+
+        
     }
 }

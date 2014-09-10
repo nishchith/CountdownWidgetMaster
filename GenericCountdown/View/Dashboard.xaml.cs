@@ -7,34 +7,122 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using GenericCountdown.ViewModel;
+using System.Windows.Media.Imaging;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 namespace GenericCountdown.View
 {
     public partial class Dashboard : PhoneApplicationPage
     {
+        DashboardViewModel viewModel = null;
+
+
         // Constructor
         public Dashboard()
         {
             InitializeComponent();
+            viewModel = this.DataContext as DashboardViewModel;
 
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
         }
 
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
+        private void History_Click(object sender, EventArgs e)
+        {
 
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
+        }
 
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
+        private void Setting_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Setting.xaml", UriKind.Relative));
+        }
+
+        private void FacebookShare_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EmailShare_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RateAndReview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            var journal = ((Microsoft.Phone.Controls.PhoneApplicationFrame)(ViewModelLocator.Navigation));
+            if (journal != null)
+            {
+                while (journal.RemoveBackEntry() != null)
+                { }
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            viewModel.LoadCurrentItems();
+            viewModel.AsyncTicker();
+
+            if (ViewModelLocator.SelectedImage == null)
+            {
+                ViewModelLocator.SelectedImage = new BitmapImage(new Uri("../Assets/Images/default_portrait_01.png", UriKind.Relative));
+            }
+
+            if (ViewModelLocator.CurrentCountdownItem.Music && ViewModelLocator.CurrentCountdownItem.MusicFile != "")
+            {
+                //MusicMediaElement.Source = new Uri(ViewModelLocator.CurrentCountdownItem.MusicFile, UriKind.Relative);
+                //MusicMediaElement.Play();
+                if (CanPlay())
+                {
+                    //MoveRobot.Begin();
+                    //MusicMediaElement.Stop();
+                    //MusicMediaElement.Source = new System.Uri("sound26.wma", System.UriKind.Relative); 
+                    MusicMediaElement.Play();
+                }   
+            }
+
+            this.BackgroundImage.Source = ViewModelLocator.SelectedImage;
+
+            base.OnNavigatedFrom(e);
+        }
+
+        private bool CanPlay()
+        {
+            bool canPlay = false;
+            FrameworkDispatcher.Update();
+            if (MediaPlayer.GameHasControl)
+            {
+                canPlay = true;
+            }
+            else
+            {
+                if (MessageBox.Show("Is it ok to stop currently playing music?", "Can stop music?",
+                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    canPlay = true;
+                    MediaPlayer.Pause();
+
+                }
+                else
+                {
+                    canPlay = false;
+                }
+            }
+            return canPlay;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            viewModel.KillAsyncTickerTask();
+
+            MusicMediaElement.Stop();
+            MusicMediaElement.Position = System.TimeSpan.FromSeconds(0); 
+
+            base.OnNavigatedFrom(e);
+        }
     }
 }
