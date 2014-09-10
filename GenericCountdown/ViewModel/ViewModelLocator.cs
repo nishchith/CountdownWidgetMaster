@@ -21,6 +21,8 @@ namespace GenericCountdown.ViewModel
 
         public static CountdownItem CurrentCountdownItem { get; set; }
 
+        public static int CountdownItemIndex { get; set; }
+
         public static ObservableCollection<CountdownItem> AllCountdownItems { get; set; }
 
         public static BitmapImage SelectedImage { get; set; }
@@ -29,6 +31,8 @@ namespace GenericCountdown.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+            CountdownItemIndex = 0;
 
             // Register those ViewModels which should be setup asa the app launch
             // this also delays the launch
@@ -85,7 +89,12 @@ namespace GenericCountdown.ViewModel
             //this.LoadTickerItems();
         }
 
-        // Write changes in the data context to the database.
+
+        public static CountdownItem GetCurrentCounterItem()
+        {
+            return AllCountdownItems.ElementAtOrDefault(CountdownItemIndex);
+        }
+
         public static void SaveCountdown()
         {
             countdownDB.SubmitChanges();

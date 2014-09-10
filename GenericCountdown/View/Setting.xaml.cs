@@ -13,6 +13,8 @@ using System.Collections;
 using GenericCountdown.Model;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework.Media;
+using System.Collections.ObjectModel;
+using System.Text;
 
 namespace GenericCountdown.View
 {
@@ -37,7 +39,21 @@ namespace GenericCountdown.View
 
             viewModel = this.DataContext as SettingViewModel;
 
+            // Get the full collection of items:
+            //List<CountdownType> allTypes = TypePicker.ItemsSource as List<CountdownType>;
+
+            //int id;
+            //if (viewModel.SelectedCountdownType.Name == "Countdown")
+            //    id = 0;
+            //else
+            //    id = 1;
+
+            //TypePicker.SelectedItems = new ObservableCollection<object>() { 
+            //    allTypes[id] 
+            //};
+
             //unitListPicker.SummaryForSelectedItemsDelegate = SummarizeItems;
+            //TypePicker.SummaryForSelectedItemsDelegate = SummarizeTypes;
         }
 
         void photoChooserTask_Completed(object sender, PhotoResult e)
@@ -62,26 +78,44 @@ namespace GenericCountdown.View
             }
         }
 
-        private string SummarizeItems(IList items)
-        {
+        //private string SummarizeItems(IList items)
+        //{
 
-            if (items != null && items.Count > 0)
-            {
-                string summarizedString = "";
-                for (int i = 0; i < items.Count; i++)
-                {
-                    summarizedString += ((Units)items[i]).Name.ToString();
+        //    if (items != null && items.Count > 0)
+        //    {
+        //        string summarizedString = "";
+        //        for (int i = 0; i < items.Count; i++)
+        //        {
+        //            summarizedString += ((Units)items[i]).Name.ToString();
 
-                    if (i != items.Count - 1)
-                        summarizedString += ", ";
-                }
+        //            if (i != items.Count - 1)
+        //                summarizedString += ", ";
+        //        }
 
-                return summarizedString;
-            }
-            else
-                return "Select Unit";
-        }
+        //        return summarizedString;
+        //    }
+        //    else
+        //        return "Select Unit";
+        //}
+        //private string SummarizeTypes(IList items)
+        //{
 
+        //    if (items != null && items.Count > 0)
+        //    {
+        //        string summarizedString = "";
+        //        for (int i = 0; i < items.Count; i++)
+        //        {
+        //            summarizedString += ((CountdownType)items[i]).Name.ToString();
+
+        //            if (i != items.Count - 1)
+        //                summarizedString += ", ";
+        //        }
+
+        //        return summarizedString;
+        //    }
+        //    else
+        //        return "Select Unit";
+        //}
         private void PhotoLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             try
@@ -151,7 +185,7 @@ namespace GenericCountdown.View
         
         private void UpdateChangesToDatabase()
         {
-            ViewModelLocator.CurrentCountdownItem.Type = viewModel.SelectedCountdownType.Name;
+            //ViewModelLocator.CurrentCountdownItem.Type = viewModel.SelectedCountdownType.Name;
             //viewModel.MyRaisePorpertyChanged("CurrentCountdownItem");
 
             ViewModelLocator.SaveCountdown();
@@ -187,6 +221,30 @@ namespace GenericCountdown.View
             {
 
             }
+        }
+
+        private void TypePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StringBuilder msg = new StringBuilder();
+            msg.Append("Selected Teams:");
+
+            if (TypePicker == null) return;
+
+            var item = TypePicker.SelectedItem as CountdownType;
+
+            viewModel.SelectedCountdown.Type = item.Name;
+            viewModel.SelectedCountdownTypeIndex = TypePicker.SelectedIndex;
+
+            //if (TypePicker.SelectedItems != null)
+            //{
+            //    foreach (var item in TypePicker.SelectedItems)
+            //    {
+            //        var team = item as CountdownType;
+            //        msg.Append(" " + team.Name);
+            //    }
+            //}
+
+            //System.Diagnostics.Debug.WriteLine(msg.ToString());
         }
     }
 }
