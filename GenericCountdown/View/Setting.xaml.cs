@@ -228,7 +228,9 @@ namespace GenericCountdown.View
             StringBuilder msg = new StringBuilder();
             msg.Append("Selected Teams:");
 
-            if (TypePicker == null) return;
+            if (TypePicker == null) 
+                // when page load TypePicker wont exist hence
+                return;
 
             var item = TypePicker.SelectedItem as CountdownType;
 

@@ -159,6 +159,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="300x300.png" />
+    <Content Include="358x173.png" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppBar\cancel.png" />
     <Content Include="Assets\AppBar\check.png" />
@@ -215,6 +217,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
+    <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
