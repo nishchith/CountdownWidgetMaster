@@ -1,0 +1,107 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="GenericCountdown.View.History"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:GenericCountdown.Converters"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    DataContext="{Binding History, Source={StaticResource Locator}}"
+>
+
+    
+    <phone:PhoneApplicationPage.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <DataTemplate x:Key="TickerTemplate">
+            <Grid Height="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="380" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" 
+                       Name="ImageCardBack" 
+                       Source="{Binding ImagePath}"
+                       Height="140"
+                       Stretch="UniformToFill" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Top" />
+                <Grid Grid.Column="1"
+                      Background="#FFAE0101">
+                    <Grid.RowDefinitions>
+                        <RowDefinition  />
+                        <RowDefinition  />
+                    </Grid.RowDefinitions>
+
+                    <!-- Ticker Units -->
+                    <StackPanel Grid.Row="0" 
+				                Orientation="Horizontal" 
+                                Margin="0 4 4 4"
+				                HorizontalAlignment="Center">
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding YearFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Year}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Years" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+					                Visibility="{Binding MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Month}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Months" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Week}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Weeks" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Day}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Days" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Hour}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Hours" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Minute}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Minutes" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Second}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Seconds" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock x:Name="EventTag" 
+                               FontSize="14" 
+                               Text="{Binding Phrase}"
+                               TextAlignment="Center"
+                               Grid.Row="1"
+                               HorizontalAlignment="Center" 
+                               TextWrapping="Wrap"/>  
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
+            <phone:LongListSelector HorizontalAlignment="Left" 
+                                    Width="480" 
+                                    Grid.Column="1" Margin="0,0,0,0" 
+                                    x:Name="countdownItems"
+                                    ItemsSource="{Binding TickerItems}"
+                                    ItemTemplate="{StaticResource TickerTemplate}">
+            </phone:LongListSelector>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

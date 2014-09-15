@@ -17,6 +17,31 @@ namespace GenericCountdown.ViewModel
 
         CancellationTokenSource taskSource = new CancellationTokenSource();
 
+        //public Uri BgImagePath;
+
+
+
+        public const string BgImagePathPropertyName = "BgImagePath";
+        private Uri _bgImagePath;
+        public Uri BgImagePath
+        {
+            get
+            {
+                return _bgImagePath;
+            }
+
+            set
+            {
+                if (_bgImagePath == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(BgImagePathPropertyName);
+                _bgImagePath = value;
+                RaisePropertyChanged(BgImagePathPropertyName);
+            }
+        }
 
         string DBConnectionString = "Data Source=isostore:/CountdownDB.sdf";
         

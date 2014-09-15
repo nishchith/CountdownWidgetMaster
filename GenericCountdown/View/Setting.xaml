@@ -28,28 +28,13 @@
                 <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
             </StackPanel>
         </DataTemplate>
+        
         <DataTemplate x:Name="PickerFullModeItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
             </StackPanel>
         </DataTemplate>
-        <!--<DataTemplate x:Key="AlbumInfoTemplate">
-            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                <StackPanel Orientation="Vertical">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source=" " Margin="5" Height="80" Width="80" Stretch="UniformToFill"/>
-                        <StackPanel Grid.Column="1">
-                            <TextBlock FontWeight="Normal" Text="{Binding Name}" Margin="10,0,0,0" FontSize="25" Foreground="Black"/>
-                            <TextBlock FontWeight="Normal" Text="{Binding Artist}" Margin="10,0,0,0" FontSize="20" Foreground="Black" Opacity="0.75"/>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>-->
+
         <ControlTemplate x:Key="ListPickerControlTemplate1" TargetType="toolkit:ListPicker">
             <StackPanel>
                 <VisualStateManager.VisualStateGroups>
@@ -141,6 +126,7 @@
                 </Grid>
             </StackPanel>
         </ControlTemplate>
+        
         <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
             <Setter Property="Background" Value="#17355F"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -187,6 +173,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <DataTemplate x:Key="CountdownTypeTemplate">
             <StackPanel>
                 <TextBlock Text="{Binding Name}"/>
@@ -298,9 +285,34 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Text="Units" Margin="12,0,12,0"/>
-                    <!--<common:SmartListPicker Grid.Row="1" 
+
+                    <common:SmartListPicker Grid.Row="1" 
                                             Margin="10,0,10,10" 
                                             x:Name="unitListPicker" 
+                                            SelectionMode="Multiple" 
+                                            ItemsSource="{Binding Setting.AllUnits, Source={StaticResource Locator}}"
+                                            SelectedItems="{Binding Setting.SelectedUnits, Source={StaticResource Locator}, Mode=TwoWay}"
+                                            FullModeHeader="Choose Units" 
+                                            ItemTemplate="{StaticResource PickerItemTemplate}" 
+                                            FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"/>
+
+                    <!--<toolkit:ListPicker Height="100" 
+                                        HorizontalAlignment="Left" 
+                                        Margin="9,109,0,0" 
+                                        x:Name="listPicker1" 
+                                        VerticalAlignment="Top" 
+                                        Width="441" 
+                                        SelectionMode="Multiple" 
+                                        ItemsSource="{Binding FootballTeams}"
+                                        Header="Football Teams" 
+                                        FullModeHeader="Football Teams" 
+                                        ItemTemplate="{StaticResource PickerItemTemplate}" 
+                                        FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"/>-->
+
+                    
+                    <!--<common:SmartListPicker Grid.Row="1" 
+                                            Margin="10,0,10,10" 
+                                            x:Name="unitLiistPicker" 
                                             SelectionMode="Multiple" 
                                             ItemsSource="{Binding Setting.AllUnits, Source={StaticResource Locator}}"
                                             SelectedItems="{Binding SelectedUnits, Mode=TwoWay}"
@@ -335,7 +347,9 @@
                                  DataContext="{Binding Source={StaticResource Locator}}"
                                  ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                                  MinHeight="100">
-
+                            <!--
+                                 SelectedIndex="{Binding SelectedImageIndex}" 
+                            -->
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <!--<toolkit:WrapPanel/>-->
@@ -348,7 +362,6 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-
 
                         <TextBlock Grid.Row="2" 
                                    Text="From Photo Library" 
@@ -390,9 +403,6 @@
             </phone:PanoramaItem>
         </phone:Panorama>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        
     </Grid>
 </phone:PhoneApplicationPage>

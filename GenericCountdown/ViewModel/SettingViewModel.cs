@@ -32,32 +32,32 @@ namespace GenericCountdown.ViewModel
             }
         }
 
-        //public const string CountdownTypeListPropertyName = "CountdownTypeList";
-        //private string[] _countdownTypeList;
-        //public string[] CountdownTypeList
-        //{
-        //    get
-        //    {
-        //        return _countdownTypeList;
-        //    }
+        // set this binding property of type object
+        public const string SelectedUnitsPropertyName = "SelectedUnits";
+        private ObservableCollection<object> _selectedUnits;
+        public ObservableCollection<object> SelectedUnits
+        {
+            get
+            {
+                return _selectedUnits;
+            }
 
-        //    set
-        //    {
-        //        if (_countdownTypeList == value)
-        //        {
-        //            return;
-        //        }
+            set
+            {
+                if (_selectedUnits == value)
+                {
+                    return;
+                }
 
-        //        RaisePropertyChanging(CountdownTypeListPropertyName);
-        //        _countdownTypeList = value;
-        //        RaisePropertyChanged(CountdownTypeListPropertyName);
-        //    }
-        //}
-
+                RaisePropertyChanging(SelectedUnitsPropertyName);
+                _selectedUnits = value;
+                RaisePropertyChanged(SelectedUnitsPropertyName);
+            }
+        }
 
         public const string AllUnitsPropertyName = "AllUnits";
-        private ObservableCollection<Units> _allUnits = new ObservableCollection<Units>();
-        public ObservableCollection<Units> AllUnits
+        private List<Units> _allUnits = new List<Units>();
+        public List<Units> AllUnits
         {
             get
             {
@@ -76,7 +76,7 @@ namespace GenericCountdown.ViewModel
                 RaisePropertyChanged(AllUnitsPropertyName);
             }
         }
-
+         
         public IEnumerable<Uri> Images { get; set; }
 
         private int selectedCountdownTypeIndex;
@@ -90,23 +90,70 @@ namespace GenericCountdown.ViewModel
             }
         }
 
+        public const string CountdownTypesPropertyName = "CountdownTypes";
+        private ObservableCollection<CountdownType> _countdownTypes;
+        public ObservableCollection<CountdownType> CountdownTypes
+        {
+            get
+            {
+                return _countdownTypes;
+            }
+
+            set
+            {
+                if (_countdownTypes == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(CountdownTypesPropertyName);
+                _countdownTypes = value;
+                RaisePropertyChanged(CountdownTypesPropertyName);
+            }
+        }
+
         public SettingViewModel()
         {
-            SelectedCountdown = ViewModelLocator.GetCurrentCounterItem();
+            LoadSelectedItemAsCurrent();
 
             PopulateUnits();
             PopulateType();
             PopulateImages();
-
-            SelectedCountdownTypeIndex = (SelectedCountdown.Type == "Countdown")?0:1;
-
-            //SelectedCountdownTypes = new ObservableCollection<CountdownType>();
-            //SelectedCountdownTypes.Add(SelectedCountdownType);
         }
+
+        private void LoadSelectedItemAsCurrent()
+        {
+            SelectedCountdown = ViewModelLocator.GetCurrentCounterItem(); 
+            SelectedCountdownTypeIndex = (SelectedCountdown.Type == "Countdown") ? 0 : 1;
+            //PopulateSelectedUnits();
+        }
+
+        //public void PopulateSelectedUnits()
+        //{
+        //    SelectedUnits = new ObservableCollection<object>();
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Random" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Years" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Months" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Weeks" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Days" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Hours" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Minutes" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Seconds" });
+        //    if (SelectedCountdown.YearFlag)
+        //        SelectedUnits.Add(new Units() { Name = "Hearbeats" });
+        //}
 
         public void PopulateUnits()
         {
-            AllUnits = new ObservableCollection<Units>();
+            AllUnits = new List<Units>();
             AllUnits.Add(new Units() { Name = "Random" });
             AllUnits.Add(new Units() { Name = "Years" });
             AllUnits.Add(new Units() { Name = "Months" });
@@ -133,98 +180,22 @@ namespace GenericCountdown.ViewModel
             };
         }
 
-
         public void PopulateType()
         {
-            //CountdownTypeList = new string[] { "Countdown", "Anniversary" };
             CountdownTypes = new ObservableCollection<CountdownType>();
             CountdownTypes.Add(new CountdownType() { Name = "Countdown" });
             CountdownTypes.Add(new CountdownType() { Name = "Anniversary" });
         }
 
-
-
-
-
-
-
-
-        private CountdownItem _countdownItem;
-        public CountdownItem CountdownItem
-        {
-            get { return _countdownItem; }
-            set
-            {
-                _countdownItem = value;
-                RaisePropertyChanged("CountdownItem");
-            }
-        }
-
-        
-
-        
-
-        //private string[] countdownTypes = new string[] { "Countdown", "Anniversary" };
-        //public string[] CountdownTypes
+        //private CountdownItem _countdownItem;
+        //public CountdownItem CountdownItem
         //{
-        //    get { return countdownTypes; }
-        //}
-
-        public const string CountdownTypesPropertyName = "CountdownTypes";
-        private ObservableCollection<CountdownType> _countdownTypes;
-        public ObservableCollection<CountdownType> CountdownTypes
-        {
-            get
-            {
-                return _countdownTypes;
-            }
-
-            set
-            {
-                if (_countdownTypes == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(CountdownTypesPropertyName);
-                _countdownTypes = value;
-                RaisePropertyChanged(CountdownTypesPropertyName);
-            }
-        }
-
-        //public const string SelectedCountdownTypesPropertyName = "SelectedCountdownTypes";
-        //private ObservableCollection<CountdownType> _selectedCountdownTypes;
-        //public ObservableCollection<CountdownType> SelectedCountdownTypes
-        //{
-        //    get
-        //    {
-        //        return _selectedCountdownTypes;
-        //    }
-
+        //    get { return _countdownItem; }
         //    set
         //    {
-        //        if (_selectedCountdownTypes == value)
-        //        {
-        //            return;
-        //        }
-
-        //        RaisePropertyChanging(SelectedCountdownTypesPropertyName);
-        //        _selectedCountdownTypes = value;
-        //        RaisePropertyChanged(SelectedCountdownTypesPropertyName);
+        //        _countdownItem = value;
+        //        RaisePropertyChanged("CountdownItem");
         //    }
-        //}
-
-        //DashboardViewModel dashboardViewModel = new DashboardViewModel();
-
-
-
-
-
-
-        
-        //public void MyRaisePorpertyChanged(string ppt)
-        //{
-        //    RaisePropertyChanged(ppt);
         //}
     }
 }

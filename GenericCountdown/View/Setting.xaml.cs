@@ -52,7 +52,7 @@ namespace GenericCountdown.View
             //    allTypes[id] 
             //};
 
-            //unitListPicker.SummaryForSelectedItemsDelegate = SummarizeItems;
+            unitListPicker.SummaryForSelectedItemsDelegate = SummarizeItems;
             //TypePicker.SummaryForSelectedItemsDelegate = SummarizeTypes;
         }
 
@@ -78,43 +78,46 @@ namespace GenericCountdown.View
             }
         }
 
-        //private string SummarizeItems(IList items)
+        private string SummarizeItems(IList items)
+        {
+
+            if (items != null && items.Count > 0)
+            {
+                string summarizedString = "";
+                for (int i = 0; i < items.Count; i++)
+                {
+                    summarizedString += ((Units)items[i]).Name.ToString();
+
+                    if (i != items.Count - 1)
+                        summarizedString += ", ";
+                }
+
+                return summarizedString;
+            }
+            else
+                return "Select Unit";
+        }
+        private void unitListPicker_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            StringBuilder msg = new StringBuilder();
+            msg.Append("Selected Teams:");
+
+            if (unitListPicker.SelectedItems != null)
+            {
+                foreach (var item in unitListPicker.SelectedItems)
+                {
+                    var team = item as Units;
+                    msg.Append(" " + team.Name);
+                }
+            }
+
+            System.Diagnostics.Debug.WriteLine(msg.ToString());
+        }
+
+        //private void unitListPicker_SetSelectedItem(IList items)
         //{
+            
 
-        //    if (items != null && items.Count > 0)
-        //    {
-        //        string summarizedString = "";
-        //        for (int i = 0; i < items.Count; i++)
-        //        {
-        //            summarizedString += ((Units)items[i]).Name.ToString();
-
-        //            if (i != items.Count - 1)
-        //                summarizedString += ", ";
-        //        }
-
-        //        return summarizedString;
-        //    }
-        //    else
-        //        return "Select Unit";
-        //}
-        //private string SummarizeTypes(IList items)
-        //{
-
-        //    if (items != null && items.Count > 0)
-        //    {
-        //        string summarizedString = "";
-        //        for (int i = 0; i < items.Count; i++)
-        //        {
-        //            summarizedString += ((CountdownType)items[i]).Name.ToString();
-
-        //            if (i != items.Count - 1)
-        //                summarizedString += ", ";
-        //        }
-
-        //        return summarizedString;
-        //    }
-        //    else
-        //        return "Select Unit";
         //}
         private void PhotoLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -188,20 +191,89 @@ namespace GenericCountdown.View
             //ViewModelLocator.CurrentCountdownItem.Type = viewModel.SelectedCountdownType.Name;
             //viewModel.MyRaisePorpertyChanged("CurrentCountdownItem");
 
+            // Get the full collection of items:
+            if (viewModel.SelectedUnits != null)
+            {
+                //viewModel.SelectedCountdown.YearFlag = viewModel.SelectedUnits.Contains()
+
+                //viewModel.SelectedCountdown.RandomFlag	= false;
+                viewModel.SelectedCountdown.YearFlag = false;
+                viewModel.SelectedCountdown.MonthFlag = false;
+                viewModel.SelectedCountdown.WeekFlag = false;
+                viewModel.SelectedCountdown.DayFlag = false;
+                viewModel.SelectedCountdown.HourFlag = false;
+                viewModel.SelectedCountdown.MinuteFlag = false;
+                viewModel.SelectedCountdown.SecondFlag = false;
+                //viewModel.SelectedCountdown.HearbeatFlag 	= false;
+
+                foreach (var item in viewModel.SelectedUnits)
+                {
+                    var unit = item as Units;
+
+                    switch (unit.Name)
+                    {
+                        case "Random":
+                            //viewModel.SelectedCountdown.RandomFlag = true;
+                            break;
+                        case "Years":
+                            viewModel.SelectedCountdown.YearFlag = true;
+                            break;
+                        case "Months":
+                            viewModel.SelectedCountdown.MonthFlag = true;
+                            break;
+                        case "Weeks":
+                            viewModel.SelectedCountdown.WeekFlag = true;
+                            break;
+                        case "Days":
+                            viewModel.SelectedCountdown.DayFlag = true;
+                            break;
+                        case "Hours":
+                            viewModel.SelectedCountdown.HourFlag = true;
+                            break;
+                        case "Minutes":
+                            viewModel.SelectedCountdown.MinuteFlag = true;
+                            break;
+                        case "Seconds":
+                            viewModel.SelectedCountdown.SecondFlag = true;
+                            break;
+                        case "Hearbeats":
+                            viewModel.SelectedCountdown.YearFlag = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            //List<Units> allItems =  as List<Units>;
+
+            //// Set the SelectedItems to the 5th and 6th teams
+            //unitListPicker.SelectedItems = new ObservableCollection<object>();
+
+            //if (viewModel.SelectedCountdown.YearFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[0]);
+            //if (viewModel.SelectedCountdown.YearFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[1]);
+            //if (viewModel.SelectedCountdown.MonthFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[2]);
+            //if (viewModel.SelectedCountdown.WeekFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[3]);
+            //if (viewModel.SelectedCountdown.DayFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[4]);
+            //if (viewModel.SelectedCountdown.HourFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[5]);
+            //if (viewModel.SelectedCountdown.MinuteFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[6]);
+            //if (viewModel.SelectedCountdown.SecondFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[7]);
+            //if (viewModel.SelectedCountdown.YearFlag)
+            //    unitListPicker.SelectedItems.Add(allItems[8]);
+
+
             ViewModelLocator.SaveCountdown();
             ViewModelLocator.LoadCollectionsFromDatabase();
         }
 
-        private void PhotoPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender != null && PhotoPicker.SelectedItem != null)
-            {
-                ViewModelLocator.SelectedImage = new BitmapImage(viewModel.Images.ElementAt(PhotoPicker.SelectedIndex));
-                ViewModelLocator.CurrentCountdownItem.PhotoFile = ViewModelLocator.SelectedImage.UriSource.ToString();
-                //viewModel.CountdownItem.PhotoFile = viewModel.Images.ElementAt(PhotoPicker.SelectedIndex).ToString();
-                ////viewModel.MyRaisePorpertyChanged("CurrentCountdownItem");
-            }
-        }
 
         private void MusicLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -213,9 +285,8 @@ namespace GenericCountdown.View
                 //    Song song = songs[0];
                 //    MediaPlayer.Play(song);
                 //}
-
-                ViewModelLocator.CurrentCountdownItem.MusicFile = "../Assets/Music/16-16000-mono-cbr.wma";
-
+                Uri MusicItem = new Uri("../Assets/Music/Sleep_Away.wma", UriKind.Relative);
+                viewModel.SelectedCountdown.MusicFile = MusicItem.ToString();
             }
             catch (Exception exe)
             {
@@ -225,18 +296,16 @@ namespace GenericCountdown.View
 
         private void TypePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StringBuilder msg = new StringBuilder();
-            msg.Append("Selected Teams:");
+            if (TypePicker != null && TypePicker.SelectedItem != null)
+            {
+                var item = TypePicker.SelectedItem as CountdownType;
 
-            if (TypePicker == null) 
-                // when page load TypePicker wont exist hence
-                return;
+                viewModel.SelectedCountdown.Type = item.Name;
+                viewModel.SelectedCountdownTypeIndex = TypePicker.SelectedIndex;
+            }
 
-            var item = TypePicker.SelectedItem as CountdownType;
-
-            viewModel.SelectedCountdown.Type = item.Name;
-            viewModel.SelectedCountdownTypeIndex = TypePicker.SelectedIndex;
-
+            //StringBuilder msg = new StringBuilder();
+            //msg.Append("Selected Teams:");
             //if (TypePicker.SelectedItems != null)
             //{
             //    foreach (var item in TypePicker.SelectedItems)
@@ -245,8 +314,18 @@ namespace GenericCountdown.View
             //        msg.Append(" " + team.Name);
             //    }
             //}
-
             //System.Diagnostics.Debug.WriteLine(msg.ToString());
+        }
+        private void PhotoPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender != null && PhotoPicker.SelectedItem != null)
+            {
+                ViewModelLocator.SelectedImage = new BitmapImage(viewModel.Images.ElementAt(PhotoPicker.SelectedIndex));
+                viewModel.SelectedCountdown.PhotoFile = ViewModelLocator.SelectedImage.UriSource.ToString();
+
+                //viewModel.CountdownItem.PhotoFile = viewModel.Images.ElementAt(PhotoPicker.SelectedIndex).ToString();
+                ////viewModel.MyRaisePorpertyChanged("CurrentCountdownItem");
+            }
         }
     }
 }

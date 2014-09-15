@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
+using NodaTime;
 
 namespace GenericCountdown.ViewModel
 {
@@ -27,6 +28,8 @@ namespace GenericCountdown.ViewModel
 
         public static BitmapImage SelectedImage { get; set; }
 
+        public static Uri SelectedMusic { get; set; }
+
 
         static ViewModelLocator()
         {
@@ -39,7 +42,8 @@ namespace GenericCountdown.ViewModel
             //SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<DashboardViewModel>();
             SimpleIoc.Default.Register<SettingViewModel>();
-            SimpleIoc.Default.Register<CountdownListViewModel>();
+            SimpleIoc.Default.Register<HistoryViewModel>();
+            SimpleIoc.Default.Register<NewCountdownViewModel>();
         }
 
         /// <summary>
@@ -62,11 +66,18 @@ namespace GenericCountdown.ViewModel
                 return ServiceLocator.Current.GetInstance<SettingViewModel>();
             }
         }
-        public CountdownListViewModel CountdownList
+        public HistoryViewModel History
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<CountdownListViewModel>();
+                return ServiceLocator.Current.GetInstance<HistoryViewModel>();
+            }
+        }
+        public NewCountdownViewModel NewCountdown
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<NewCountdownViewModel>();
             }
         }
 
@@ -100,6 +111,116 @@ namespace GenericCountdown.ViewModel
             countdownDB.SubmitChanges();
         }
 
-        
+        public static Ticker BuildTicker(CountdownItem item)
+        {
+            DateTime eventDate = new DateTime(item.EventDateTime.Ticks, DateTimeKind.Local);
+            Ticker myTicker = new Ticker();
+            Period timePeriod = null;
+            PeriodBuilder pendingPeriod = new PeriodBuilder();
+
+            //TimeSpan timeElapsed;
+
+            switch (item.Type)
+            {
+                case "Countdown":
+                    if (eventDate > DateTime.Now)
+                    {
+                        // Future Date
+                        //timeElapsed = new TimeSpan(eventDate.Subtract(DateTime.Now).Ticks);
+                        timePeriod = Period.Between(GetLocalDateTimeFromDateTime(DateTime.Now), GetLocalDateTimeFromDateTime(eventDate));
+                        myTicker.Phrase = "Until " + item.EventName;
+                    }
+                    else
+                    {
+                        // Past Date
+                        //timeElapsed = new TimeSpan(DateTime.Now.Subtract(eventDate).Ticks);
+                        timePeriod = Period.Between(GetLocalDateTimeFromDateTime(DateTime.Now), GetLocalDateTimeFromDateTime(eventDate));
+                        myTicker.Phrase = "Since " + item.EventName;
+                    }
+                    break;
+                case "Anniversary":
+                    if (eventDate > DateTime.Now)
+                    {
+                        // Future Date
+                        //timeElapsed = new TimeSpan(eventDate.AddYears(1).Subtract(DateTime.Now).Ticks);
+                        timePeriod = Period.Between(GetLocalDateTimeFromDateTime(DateTime.Now), GetLocalDateTimeFromDateTime(eventDate.AddYears(1)));
+                        myTicker.Phrase = "Until " + item.EventName + " 1st Anniversary";
+                    }
+                    else
+                    {
+                        // Past Date
+                        int n = 1;
+                        while (eventDate.AddYears(n) < DateTime.Now)
+                        {
+                            n++;
+                        }
+                        //timeElapsed = new TimeSpan(eventDate.AddYears(n).Subtract(DateTime.Now).Ticks);
+                        timePeriod = Period.Between(GetLocalDateTimeFromDateTime(DateTime.Now), GetLocalDateTimeFromDateTime(eventDate.AddYears(n)));
+                        myTicker.Phrase = "Until " + item.EventName + " " + n + "th Anniversary";
+                    }
+                    break;
+            }
+
+
+
+            pendingPeriod = new PeriodBuilder(timePeriod);
+
+            if (item.YearFlag)
+            {
+                myTicker.Year = pendingPeriod.Years.ToString("00");
+                pendingPeriod.Years = 0;
+            }
+
+            if (item.MonthFlag)
+            {
+                myTicker.Month = pendingPeriod.Months.ToString("00");
+                pendingPeriod.Months = 0;
+            }
+
+            if (item.WeekFlag)
+            {
+                myTicker.Week = pendingPeriod.Weeks.ToString("00");
+                pendingPeriod.Weeks = 0;
+            }
+
+            if (item.DayFlag)
+            {
+                myTicker.Day = pendingPeriod.Days.ToString("00");
+                pendingPeriod.Days = 0;
+            }
+
+            if (item.HourFlag)
+            {
+                myTicker.Hour = pendingPeriod.Hours.ToString("00");
+                pendingPeriod.Hours = 0;
+            }
+
+            if (item.MinuteFlag)
+            {
+                myTicker.Minute = pendingPeriod.Minutes.ToString("00");
+                pendingPeriod.Minutes = 0;
+            }
+
+            if (item.SecondFlag)
+            {
+                myTicker.Second = pendingPeriod.Seconds.ToString("00");
+            }
+
+            myTicker.YearFlag = item.YearFlag;
+            myTicker.MonthFlag = item.MonthFlag;
+            myTicker.WeekFlag = item.WeekFlag;
+            myTicker.DayFlag = item.DayFlag;
+            myTicker.HourFlag = item.HourFlag;
+            myTicker.MinuteFlag = item.MinuteFlag;
+            myTicker.SecondFlag = item.SecondFlag;
+
+            myTicker.ImagePath = new Uri(item.PhotoFile, UriKind.RelativeOrAbsolute);
+            return myTicker;
+        }
+
+        public static LocalDateTime GetLocalDateTimeFromDateTime(DateTime dt)
+        {
+            return new LocalDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
+        }
     }
 }

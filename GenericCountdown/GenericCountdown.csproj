@@ -97,7 +97,7 @@
     <Compile Include="Commons\SmartListPicker.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
-    <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -115,15 +115,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CountdownListViewModel.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
+    <Compile Include="ViewModel\NewCountdownViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\CountdownList.xaml.cs">
-      <DependentUpon>CountdownList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\History.xaml.cs">
+      <DependentUpon>History.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NewCountdown.xaml.cs">
+      <DependentUpon>NewCountdown.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
@@ -138,11 +142,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CountdownList.xaml">
+    <Page Include="View\Dashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dashboard.xaml">
+    <Page Include="View\History.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NewCountdown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,10 +205,9 @@
     <Content Include="Assets\Images\default_portrait_03.png" />
     <Content Include="Assets\Images\default_portrait_04.png" />
     <Content Include="Assets\Images\default_portrait_05.png" />
-    <Content Include="Assets\Music\16-16000-mono-cbr.wma" />
-    <Content Include="Assets\Music\32-32000-stereo-cbr.wma" />
-    <Content Include="Assets\Music\320-44100-stereo-cbr.wma" />
-    <Content Include="Assets\Music\John Legend - All of Me.mp3" />
+    <Content Include="Assets\Music\Sleep_Away.wma">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -243,6 +250,9 @@
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.WP8">
       <HintPath>packages\MvvmLightLibs.4.2.30.0\lib\wp8\GalaSoft.MvvmLight.WP8.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleAds">
+      <HintPath>D:\Downloads\googlemobileadssdkwindowsphone8\GoogleMobileAdsSdkWindowsPhone8-6.5.13\lib\windowsphone8\GoogleAds.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
