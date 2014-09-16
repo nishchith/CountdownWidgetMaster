@@ -147,5 +147,10 @@ namespace GenericCountdown.View
             //MusicMediaElement.Play();
             MessageBox.Show("Media opened");
         }
+
+        private void AddNewCountdown_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/NewCountdown.xaml", UriKind.Relative));
+        }
     }
 }

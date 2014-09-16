@@ -27,45 +27,6 @@
     <phone:PhoneApplicationPage.Foreground>
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </phone:PhoneApplicationPage.Foreground>
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-
-            <shell:ApplicationBar.MenuItems>
-                <!--<shell:ApplicationBarMenuItem 
-                    Text="Share on Facebook"
-                    Click="FacebookShare_Click"/>
-                <shell:ApplicationBarMenuItem 
-                    Text="Tweet on Twitter"
-                    Click="TwitterShare_Click"/>
-                <shell:ApplicationBarMenuItem 
-                    Text="Share by Email"
-                    Click="EmailShare_Click"/>-->
-                <!--<shell:ApplicationBarMenuItem 
-                    Text="Facebook Login"
-                    Click="FacebookLogin_Click"/>-->
-                <shell:ApplicationBarMenuItem 
-                    Text="Rate and Review"
-                    Click="RateAndReview_Click"/>
-            </shell:ApplicationBar.MenuItems>
-
-            <shell:ApplicationBarIconButton 
-                IconUri="/Assets/AppBar/feature.search.png" 
-                Text="History" 
-                Click="History_Click"/>
-            <shell:ApplicationBarIconButton 
-                IconUri="/Assets/AppBar/feature.settings.png" 
-                Text="Setting" 
-                Click="Setting_Click"/>
-            <shell:ApplicationBarIconButton 
-                IconUri="/Assets/AppBar/feature.email.png" 
-                Text="Facebook"
-                Click="FacebookShare_Click" />
-            <shell:ApplicationBarIconButton 
-                IconUri="/Assets/AppBar/share.png" 
-                Text="Add"
-                Click="EmailShare_Click" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 
     <Canvas x:Name="LayoutRoot" 
 		HorizontalAlignment="Stretch" 
@@ -150,4 +111,43 @@
         <!-- TICKER UNIT END -->
     </Canvas>
 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/feature.search.png" 
+                Text="History" 
+                Click="History_Click"/>
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/feature.settings.png" 
+                Text="Setting" 
+                Click="Setting_Click"/>
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/feature.email.png" 
+                Text="Facebook"
+                Click="FacebookShare_Click" />
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/share.png" 
+                Text="Add"
+                Click="AddNewCountdown_Click" />
+
+            <shell:ApplicationBar.MenuItems>
+                <!--<shell:ApplicationBarMenuItem 
+                    Text="Share on Facebook"
+                    Click="FacebookShare_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    Text="Tweet on Twitter"
+                    Click="TwitterShare_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    Text="Share by Email"
+                    Click="EmailShare_Click"/>-->
+                <!--<shell:ApplicationBarMenuItem 
+                    Text="Facebook Login"
+                    Click="FacebookLogin_Click"/>-->
+                <shell:ApplicationBarMenuItem 
+                    Text="Rate and Review"
+                    Click="RateAndReview_Click"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using NodaTime;
+using System.Collections.Generic;
 
 namespace GenericCountdown.ViewModel
 {
@@ -30,12 +31,21 @@ namespace GenericCountdown.ViewModel
 
         public static Uri SelectedMusic { get; set; }
 
+        public static IEnumerable<Uri> ImageCollection { get; set; }
+
+        public static ObservableCollection<CountdownType> CountdownTypes { get; set; }
+
+        public static List<Units> AllUnits { get; set; }
 
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             CountdownItemIndex = 0;
+
+            PopulateImages();
+            PopulateType();
+            PopulateUnits();
 
             // Register those ViewModels which should be setup asa the app launch
             // this also delays the launch
@@ -49,7 +59,7 @@ namespace GenericCountdown.ViewModel
         /// <summary>
         /// Gets the Main property.
         /// </summary>
-         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
          //   "CA1822:MarkMembersAsStatic",
          //   Justification = "This non-static member is needed for data binding purposes.")]
         public DashboardViewModel Dashboard
@@ -59,6 +69,7 @@ namespace GenericCountdown.ViewModel
                 return ServiceLocator.Current.GetInstance<DashboardViewModel>();
             }
         }
+
         public SettingViewModel Setting
         {
             get
@@ -66,6 +77,7 @@ namespace GenericCountdown.ViewModel
                 return ServiceLocator.Current.GetInstance<SettingViewModel>();
             }
         }
+
         public HistoryViewModel History
         {
             get
@@ -73,6 +85,7 @@ namespace GenericCountdown.ViewModel
                 return ServiceLocator.Current.GetInstance<HistoryViewModel>();
             }
         }
+
         public NewCountdownViewModel NewCountdown
         {
             get
@@ -81,13 +94,9 @@ namespace GenericCountdown.ViewModel
             }
         }
 
-        /// <summary>
-        /// Cleans up all the resources.
-        /// </summary>
         public static void Cleanup()
         {
         }
-
 
         public static void LoadCollectionsFromDatabase()
         {
@@ -95,9 +104,6 @@ namespace GenericCountdown.ViewModel
                                      select countdown;
 
             AllCountdownItems = new ObservableCollection<CountdownItem>(countdownItemsInDB);
-
-            //LoadCurrentItems();
-            //this.LoadTickerItems();
         }
 
 
@@ -109,6 +115,16 @@ namespace GenericCountdown.ViewModel
         public static void SaveCountdown()
         {
             countdownDB.SubmitChanges();
+        }
+
+        public static void AddCountdownItem(CountdownItem newCountdownItem)
+        {
+            countdownDB.CountdownTable.InsertOnSubmit(newCountdownItem);
+
+            countdownDB.SubmitChanges();
+
+            AllCountdownItems.Add(newCountdownItem);
+
         }
 
         public static Ticker BuildTicker(CountdownItem item)
@@ -222,5 +238,42 @@ namespace GenericCountdown.ViewModel
         {
             return new LocalDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
         }
+
+        public static void PopulateImages()
+        {
+            ImageCollection = new List<Uri>
+            {
+                new Uri("../Assets/Images/default_portrait_01.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_portrait_02.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_portrait_03.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_portrait_04.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_portrait_05.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_landscape_01.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_landscape_02.png", UriKind.Relative),
+                new Uri("../Assets/Images/default_landscape_03.png", UriKind.Relative)
+            };
+        }
+
+        public static void PopulateType()
+        {
+            CountdownTypes = new ObservableCollection<CountdownType>();
+            CountdownTypes.Add(new CountdownType() { Name = "Countdown" });
+            CountdownTypes.Add(new CountdownType() { Name = "Anniversary" });
+        }
+
+        public static void PopulateUnits()
+        {
+            AllUnits = new List<Units>();
+            AllUnits.Add(new Units() { Name = "Random" });
+            AllUnits.Add(new Units() { Name = "Years" });
+            AllUnits.Add(new Units() { Name = "Months" });
+            AllUnits.Add(new Units() { Name = "Weeks" });
+            AllUnits.Add(new Units() { Name = "Days" });
+            AllUnits.Add(new Units() { Name = "Hours" });
+            AllUnits.Add(new Units() { Name = "Minutes" });
+            AllUnits.Add(new Units() { Name = "Seconds" });
+            AllUnits.Add(new Units() { Name = "Hearbeats" });
+        }
+
     }
 }
