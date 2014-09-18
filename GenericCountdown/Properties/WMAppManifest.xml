@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="en-US" />
   <App xmlns="" ProductID="{afcc0653-a0cc-4120-9768-a9721c5b8374}" Title="GenericCountdown" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="GenericCountdown author" Description="Sample description" Publisher="GenericCountdown" PublisherID="{cae2fce4-ad12-4025-a4a1-ad62ee2ecc06}">
     <IconPath IsRelative="true" IsResource="false">300x300.png</IconPath>
@@ -20,18 +20,13 @@
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">300x300.png</BackgroundImageURI>
           <Title>Countdown Widget</Title>
-          <BackContent>
-          </BackContent>
-          <BackBackgroundImageURI>
-          </BackBackgroundImageURI>
-          <BackTitle>
-          </BackTitle>
+          <BackContent></BackContent>
+          <BackBackgroundImageURI></BackBackgroundImageURI>
+          <BackTitle></BackTitle>
           <LargeBackgroundImageURI IsRelative="true" IsResource="false">358x173.png</LargeBackgroundImageURI>
           <LargeBackContent />
-          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
-          </LargeBackBackgroundImageURI>
-          <DeviceLockImageURI>
-          </DeviceLockImageURI>
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false"></LargeBackBackgroundImageURI>
+          <DeviceLockImageURI></DeviceLockImageURI>
           <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>

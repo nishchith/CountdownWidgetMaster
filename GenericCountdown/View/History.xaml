@@ -13,95 +13,98 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding History, Source={StaticResource Locator}}"
->
-
+    DataContext="{Binding History, Source={StaticResource Locator}}">
     
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
         <DataTemplate x:Key="TickerTemplate">
-            <Grid Height="140">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="380" />
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" 
+                <!--Style="{StaticResource ConnectButtonStyle}"-->
+                <Grid Height="140">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="380" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" 
                        Name="ImageCardBack" 
                        Source="{Binding ImagePath}"
                        Height="140"
                        Stretch="UniformToFill" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Top" />
-                <Grid Grid.Column="1"
+                    <Grid Grid.Column="1"
                       Background="#FFAE0101">
-                    <Grid.RowDefinitions>
-                        <RowDefinition  />
-                        <RowDefinition  />
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition  />
+                            <RowDefinition  />
+                        </Grid.RowDefinitions>
 
-                    <!-- Ticker Units -->
-                    <StackPanel Grid.Row="0" 
+                        <!-- Ticker Units -->
+                        <StackPanel Grid.Row="0" 
 				                Orientation="Horizontal" 
                                 Margin="0 4 4 4"
 				                HorizontalAlignment="Center">
-                        <StackPanel Margin="4" 
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding YearFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Year}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Years" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Year}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Years" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
 					                Visibility="{Binding MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Month}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Months" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Month}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Months" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Week}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Weeks" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Week}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Weeks" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Day}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Days" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Day}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Days" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Hour}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Hours" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Hour}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Hours" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Minute}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Minutes" FontSize="14" TextAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Margin="4" 
+                                <TextBlock Text="{Binding Minute}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Minutes" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Margin="4" 
                                     Visibility="{Binding SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Second}" FontSize="24" TextAlignment="Center"/>
-                            <TextBlock Text="Seconds" FontSize="14" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Second}" FontSize="24" TextAlignment="Center"/>
+                                <TextBlock Text="Seconds" FontSize="14" TextAlignment="Center"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
 
-                    <TextBlock x:Name="EventTag" 
+                        <TextBlock x:Name="EventTag" 
                                FontSize="14" 
                                Text="{Binding Phrase}"
                                TextAlignment="Center"
                                Grid.Row="1"
                                HorizontalAlignment="Center" 
-                               TextWrapping="Wrap"/>  
+                               TextWrapping="Wrap"/>
+                    </Grid>
                 </Grid>
-            </Grid>
+                <!--<Image Source="/Assets/Deals/deals_screen_know_more_arrow.png" Stretch="UniformToFill"></Image>-->
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <phone:LongListSelector HorizontalAlignment="Left" 
-                                    Width="480" 
-                                    Grid.Column="1" Margin="0,0,0,0" 
-                                    x:Name="countdownItems"
-                                    ItemsSource="{Binding TickerItems}"
-                                    ItemTemplate="{StaticResource TickerTemplate}">
-            </phone:LongListSelector>
+            <ScrollViewer>
+                <phone:LongListSelector HorizontalAlignment="Left" 
+                                        Width="480" 
+                                        Grid.Column="1" Margin="0,0,0,0" 
+                                        x:Name="countdownItems"
+                                        ItemsSource="{Binding TickerItems}"
+                                        ItemTemplate="{StaticResource TickerTemplate}" 
+                                        SelectionChanged="countdownItems_SelectionChanged">
+                </phone:LongListSelector>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </phone:PhoneApplicationPage>

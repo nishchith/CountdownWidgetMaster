@@ -12,12 +12,17 @@ using GenericCountdown.Model;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Tasks;
 using System.Collections;
+using Windows.Storage.Pickers;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using GenericCountdown.Commons;
 
 namespace GenericCountdown.View
 {
     public partial class NewCountdown : PhoneApplicationPage
     {
-        PhotoChooserTask photoChooserTask = null;
+        //PhotoChooserTask photoChooserTask = null;
 
         NewCountdownViewModel viewModel = null;
 
@@ -27,8 +32,68 @@ namespace GenericCountdown.View
 
             viewModel = this.DataContext as NewCountdownViewModel;
 
+            // UI Control Events
+            PhotoLibraryPicker.Click += new RoutedEventHandler(PhotoLibraryPicker_Click);
             unitListPicker.SummaryForSelectedItemsDelegate = SummarizeItems;
         }
+
+        private void PhotoLibraryPicker_Click(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".jpeg");
+            openPicker.FileTypeFilter.Add(".png");
+
+            // Launch file open picker and caller app is suspended and may be terminated if required
+            openPicker.PickSingleFileAndContinue();
+        }
+
+        //public void ContinueFileOpenPicker(FileOpenPickerContinuationEventArgs args)
+        //{
+        //    //WriteableBitmap _thumbnailImageBitmap;
+
+        //    if (args.Files.Count > 0)
+        //    {
+        //        viewModel.NewCountdownItem.PhotoFile = args.Files[0].Path;
+
+        //        GalleryPic.Source = new BitmapImage(new Uri(args.Files[0].Path, UriKind.RelativeOrAbsolute));
+
+
+        //        //StorageFile file = args.Files[0];
+        //        //IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read);
+
+        //        //_thumbnailImageBitmap = new WriteableBitmap((int)GalleryPic.Width, (int)GalleryPic.Height); 
+
+        //        //_thumbnailImageBitmap.SetSource(fileStream);
+        //        //GalleryPic.Source = _thumbnailImageBitmap;
+
+
+
+
+        //        //StorageFile file = args.Files[0];
+
+        //        //BitmapImage image = new BitmapImage();
+
+        //        //await image.SetSource(await file.OpenAsync(FileAccessMode.Read));
+
+        //        //GalleryPic.Source = image;
+
+
+                
+
+
+        //        ////OutputTextBlock.Text = "Picked photo: " + args.Files[0].Path;
+        //        //var stream = await args.Files[0].OpenAsync(Windows.Storage.FileAccessMode.Read);
+        //        //var bitmapImage = new Windows.UI.Xaml.Media.Imaging.BitmapImage();
+        //        //await bitmapImage.SetSourceAsync(stream);
+        //        //GalleryPic.Source = bitmapImage;
+
+
+
+        //    }
+        //}
 
         private string SummarizeItems(IList items)
         {
@@ -51,8 +116,10 @@ namespace GenericCountdown.View
         }
         private void appBarAddButton_Click(object sender, EventArgs e)
         {
-            UpdateChangesToDatabase();
+            UpdateChangesToObject();
             viewModel.AddCountdownItem();
+
+            App.FileOpenPickerContinuationEventArgs = null;
 
             // Return to the main page.
             if (NavigationService.CanGoBack)
@@ -92,7 +159,7 @@ namespace GenericCountdown.View
         {
             try
             {
-                photoChooserTask.Show();
+                //photoChooserTask.Show();
             }
             catch (Exception)
             {
@@ -111,7 +178,7 @@ namespace GenericCountdown.View
 
             }
         }
-        private void UpdateChangesToDatabase()
+        private void UpdateChangesToObject()
         {
             // Get the full collection of items:
             if (viewModel.SelectedUnits != null)
@@ -165,5 +232,60 @@ namespace GenericCountdown.View
                 }
             }
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            FileOpenPickerContinuationEventArgs args = App.FileOpenPickerContinuationEventArgs;
+
+            if (args == null) return;
+
+            if (args.Files.Count > 0)
+            {
+                //StorageFile file = args.Files[0];
+                //BitmapImage image = new BitmapImage();
+                //await image.SetSourceAsync(await file.OpenAsync(FileAccessMode.Read));
+                //GalleryPic.Source = (BitmapImage)image;
+                //viewModel.NewCountdownItem.PhotoFile = image.UriSource.ToString();
+
+
+                StorageFile file = args.Files[0];
+                BitmapImage image = new BitmapImage(new Uri(file.Path,UriKind.RelativeOrAbsolute));
+                //image.SetSource(file.Path);
+                GalleryPic.Source = image;
+                viewModel.NewCountdownItem.PhotoFile = image.UriSource.ToString();
+
+
+
+                //string filename = "Logo.png";
+                //Windows.Storage.StorageFile sampleFile = await Windows.Storage.KnownFolders.DocumentsLibrary.GetFileAsync(filename);
+                //// load file from a local folder
+                ////Windows.Storage.StorageFile sampleFile = sampleFile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("Assets\\Logo.png");
+
+                //BitmapImage img = new BitmapImage();
+                //img = await LoadImage(sampleFile);
+                //myImage.Source = img;
+
+                //BitmapImage image = new BitmapImage();
+                //image.SetSource(e.ChosenPhoto);
+                //imgProfile.Source = image;
+
+            }
+            else
+            {
+                //OutputTextBlock.Text = "Operation cancelled.";
+            }
+        }
+        //private static async Task<BitmapImage> LoadImage(StorageFile file)
+        //{
+        //    BitmapImage bitmapImage = new BitmapImage();
+        //    FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
+
+        //    bitmapImage.SetSource(stream);
+
+        //    return bitmapImage;
+
+        //}
     }
 }

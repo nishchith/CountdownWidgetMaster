@@ -10,6 +10,9 @@ using Microsoft.Phone.Shell;
 using GenericCountdown.Resources;
 using GenericCountdown.ViewModel;
 using GenericCountdown.Model;
+using Windows.ApplicationModel.Activation;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace GenericCountdown
 {
@@ -21,6 +24,11 @@ namespace GenericCountdown
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
+        public static FileOpenPickerContinuationEventArgs FileOpenPickerContinuationEventArgs { get; set; }
+
+        //public static string FileOpenPickerContinuationArgsSelectedImagePath { get; set; }
+
+        //ContinuationManager continuationManager;
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -28,6 +36,7 @@ namespace GenericCountdown
         {
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
+
 
             // Standard XAML initialization
             InitializeComponent();
@@ -57,7 +66,8 @@ namespace GenericCountdown
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-            
+
+            Microsoft.Phone.Shell.PhoneApplicationService.Current.ContractActivated += Application_ContractActivated;
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -72,8 +82,116 @@ namespace GenericCountdown
         {
         }
 
+        // this is custom code by Nish that replaces ContinuationManager.cs class logic
+        private void Application_ContractActivated(object sender, IActivatedEventArgs args)
+        {
+            //FileOpenPickerContinuationEventArgs = args as FileOpenPickerContinuationEventArgs;
+            //if (args != null)
+            //{
+            //    if (args.Files.Count > 0)
+            //    {
+            //        FileOpenPickerContinuationArgsSelectedImagePath = args.Files[0].Path;
+            //        //FileOpenPickerContinuationArgsSelectedImage = new BitmapImage(new Uri(path, UriKind.RelativeOrAbsolute));
+            //    }
+            //}
+
+            if (args == null)
+                return;
+
+            switch (args.Kind)
+            {
+                case ActivationKind.PickFileContinuation:
+                    FileOpenPickerContinuationEventArgs = args as FileOpenPickerContinuationEventArgs;
+                    break;
+
+                //case ActivationKind.PickSaveFileContinuation:
+                //    var fileSavePickerPage = rootFrame.Content as IFileSavePickerContinuable;
+                //    if (fileSavePickerPage != null)
+                //    {
+                //        fileSavePickerPage.ContinueFileSavePicker(args as FileSavePickerContinuationEventArgs);
+                //    }
+                //    break;
+
+                //case ActivationKind.PickFolderContinuation:
+                //    var folderPickerPage = rootFrame.Content as IFolderPickerContinuable;
+                //    if (folderPickerPage != null)
+                //    {
+                //        folderPickerPage.ContinueFolderPicker(args as FolderPickerContinuationEventArgs);
+                //    }
+                //    break;
+
+                //case ActivationKind.WebAuthenticationBrokerContinuation:
+                //    var wabPage = rootFrame.Content as IWebAuthenticationContinuable;
+                //    if (wabPage != null)
+                //    {
+                //        wabPage.ContinueWebAuthentication(args as WebAuthenticationBrokerContinuationEventArgs);
+                //    }
+                //    break;
+            }
+
+
+
+        }
+        
+        //protected override void OnActivated(IActivatedEventArgs args) 
+        //{ 
+        //    if( args is FileSavePickerContinuationEventArgs ) 
+        //    { Frame rootFrame = Window.Current.Content as Frame; 
+        //        // Do not have content contained in the window when repeated application initialization, 
+        //        // Just make sure the window is active 
+        //        if (rootFrame == null) 
+        //        {
+        //            // create a framework to act as navigation context, Navigate to the first page 
+        //            rootFrame = new Frame(); 
+        //            // TODO: Change this value to the cache size is appropriate for your application. 
+        //            rootFrame.CacheSize = 1; 
+        //            if( args.PreviousExecutionState == ApplicationExecutionState.Terminated ) 
+        //            { 
+        //                // TODO: From the application program loading state before hanging up 
+        //            } 
+        //            // The frame on the current window 
+        //            Window.Current.Content = rootFrame; 
+        //        } 
+        //        if( rootFrame.Content == null ) 
+        //        { 
+        //            // Remove navigation start for the revolving door. 
+        //            if( rootFrame.ContentTransitions != null ) 
+        //            { 
+        //                this.transitions = new TransitionCollection(); 
+        //                foreach( var c in rootFrame.ContentTransitions ) 
+        //                { 
+        //                    this.transitions.Add(c); 
+        //                } 
+        //            } 
+        //            rootFrame.ContentTransitions = null; 
+        //            rootFrame.Navigated += this.RootFrame_FirstNavigated; 
+        //            // When the navigation stack has not been reduced, Navigation to the first page, 
+        //            // And through the required information as the navigation parameter to configure 
+        //            // The new page 
+        //            if( !rootFrame.Navigate(typeof(MainPage)) ) 
+        //            { 
+        //                throw new Exception("Failed to create initial page"); 
+        //            } 
+        //        } 
+        //        if( !rootFrame.Navigate(typeof(MainPage)) ) 
+        //        { throw new 
+        //            Exception("Failed to create target page"); 
+        //        } 
+        //        MainPage targetPage = rootFrame.Content as MainPage; 
+        //        targetPage.SavePickerArgs = (FileSavePickerContinuationEventArgs)args; 
+        //        // To ensure that the current window is active 
+        //        Window.Current.Activate(); 
+        //    } 
+        //}
+        
+            
+            
+            
+            
+        
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
+
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
         }

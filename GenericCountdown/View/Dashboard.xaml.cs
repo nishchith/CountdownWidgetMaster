@@ -20,13 +20,17 @@ namespace GenericCountdown.View
     {
         DashboardViewModel viewModel = null;
 
-        // Constructor
         public Dashboard()
         {
             InitializeComponent();
+            
             viewModel = this.DataContext as DashboardViewModel;
 
+            SetupAdMob();
+        }
 
+        private void SetupAdMob()
+        {
             AdRequest adRequest = new AdRequest();
             adRequest.ForceTesting = true;
             adModHome.LoadAd(adRequest);
@@ -40,6 +44,11 @@ namespace GenericCountdown.View
         private void Setting_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Setting.xaml", UriKind.Relative));
+        }
+
+        private void AddNewCountdown_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/NewCountdown.xaml", UriKind.Relative));
         }
 
         private void FacebookShare_Click(object sender, EventArgs e)
@@ -69,33 +78,35 @@ namespace GenericCountdown.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            viewModel.LoadCurrentItems();
             viewModel.AsyncTicker();
 
-            if (ViewModelLocator.SelectedImage == null)
-            {
-                ViewModelLocator.SelectedImage = new BitmapImage(new Uri("../Assets/Images/default_portrait_01.png", UriKind.Relative));
-            }
+            //if (ViewModelLocator.SelectedImage == null)
+            //{
+            //    ViewModelLocator.SelectedImage = new BitmapImage(new Uri("../Assets/Images/default_portrait_01.png", UriKind.Relative));
+            //}
 
-            // MusicMediaElement.Play();
+            //Uri MusicItem = new Uri("/Assets/Music/Sleep_Away.wma", UriKind.Relative);
+            //viewModel.MyCurrentCountdownItem.MusicFile = MusicItem.ToString();
+            //MusicMediaElement.Source = MusicItem;
+            //MusicMediaElement.AutoPlay=true;
 
             //if (ViewModelLocator.CurrentCountdownItem.Music && ViewModelLocator.CurrentCountdownItem.MusicFile != "")
             //{
-            //    //MusicMediaElement.Source = new Uri(ViewModelLocator.CurrentCountdownItem.MusicFile, UriKind.Relative);
-            //    //MusicMediaElement.Play();
+            //    MusicMediaElement.Source = new Uri(ViewModelLocator.CurrentCountdownItem.MusicFile, UriKind.Relative);
+            //    MusicMediaElement.Play();
             //    if (CanPlay())
             //    {
             //        //MoveRobot.Begin();
             //        //MusicMediaElement.Stop();
             //        //MusicMediaElement.Source = new System.Uri("sound26.wma", System.UriKind.Relative); 
             //        MusicMediaElement.Play();
-            //    }   
+            //    }
             //}
 
             //working code below
             //this.BackgroundImage.Source = ViewModelLocator.SelectedImage;
 
-            viewModel.BgImagePath = new Uri(viewModel.MyCurrentCountdownItem.PhotoFile, UriKind.RelativeOrAbsolute);
+            //viewModel.BgImagePath = new Uri(viewModel.MyCurrentCountdownItem.PhotoFile, UriKind.RelativeOrAbsolute);
 
             //this.BackgroundImage.Source = new BitmapImage(viewModel.BgImagePath);
 
@@ -145,12 +156,7 @@ namespace GenericCountdown.View
         private void beep_MediaOpened(object sender, RoutedEventArgs e)
         {
             //MusicMediaElement.Play();
-            MessageBox.Show("Media opened");
-        }
-
-        private void AddNewCountdown_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/View/NewCountdown.xaml", UriKind.Relative));
+            //MessageBox.Show("Media opened");
         }
     }
 }

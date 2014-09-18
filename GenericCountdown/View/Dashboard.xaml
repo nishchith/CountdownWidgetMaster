@@ -10,10 +10,10 @@
                             mc:Ignorable="d ignore"
                             SupportedOrientations="PortraitOrLandscape"
                             Orientation="Portrait"
-                            shell:SystemTray.IsVisible="True"
+                            shell:SystemTray.IsVisible="False"
                             DataContext="{Binding Dashboard, Source={StaticResource Locator}}"
                             >
-    
+
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </phone:PhoneApplicationPage.Resources>
@@ -31,24 +31,21 @@
     <Canvas x:Name="LayoutRoot" 
 		HorizontalAlignment="Stretch" 
 		Width="480"
-		DataContext="{Binding}">
-        <!--<MediaElement x:Name="MusicMediaElement" Height="100" Width="100"                            
-			VerticalAlignment="Bottom" Margin="176,100,204,69"                            
+		DataContext="{Binding MyCurrentTickerItem}">
+        <MediaElement x:Name="MusicMediaElement"                          
 			Volume="1"
-			Source="{Binding MyCurrentCountdownItem.MusicFile}"
 			MediaFailed="beep_MediaFailed" 
-			MediaOpened="beep_MediaOpened"
-			AutoPlay="False"/>-->
+			MediaOpened="beep_MediaOpened"/>
         <Image x:Name="BackgroundImage"  
 			Width="480" 
-			Source="{Binding BgImagePath}"
+			Source="{Binding ImagePath}"
 			Height="Auto" 
 			Stretch="Fill" />
         <!--Source="{Binding MyCurrentCountdownItem.PhotoFile}"-->
         <Grid HorizontalAlignment="Center" 
 			Width="480"
 			Background="#FFAE0101">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition  />
                 <RowDefinition  />
@@ -59,46 +56,46 @@
 				Orientation="Horizontal" 
 				HorizontalAlignment="Center">
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.YearFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Year}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding YearFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Year}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Years" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Month}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Month}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Months" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Week}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Week}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Weeks" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Day}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Day}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Days" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Hour}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Hour}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Hours" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Minute}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Minute}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Minutes" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Margin="4" 
-					Visibility="{Binding MyCurrentCountdownItem.SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding MyCurrentTickerItem.Second}" FontSize="36" TextAlignment="Center"/>
+					Visibility="{Binding SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Second}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Seconds" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
 
             <TextBlock x:Name="EventTag" 
 				FontSize="18" 
-				Text="{Binding MyCurrentTickerItem.Phrase}"
+				Text="{Binding Phrase}"
 				TextAlignment="Center"
 				Grid.Row="1"
 				HorizontalAlignment="Center" TextWrapping="Wrap"/>
@@ -106,8 +103,7 @@
         <GoogleAds:AdView x:Name="adModHome"
                           AdUnitID="ca-app-pub-9321659900997372/9995756646" 
                           Format="Banner"
-                          Canvas.Top="621" 
-                          Width="480"/>
+                          Canvas.Top="643"/>
         <!-- TICKER UNIT END -->
     </Canvas>
 
@@ -130,7 +126,6 @@
                 IconUri="/Assets/AppBar/share.png" 
                 Text="Add"
                 Click="AddNewCountdown_Click" />
-
             <shell:ApplicationBar.MenuItems>
                 <!--<shell:ApplicationBarMenuItem 
                     Text="Share on Facebook"
