@@ -230,6 +230,8 @@ namespace GenericCountdown.ViewModel
             myTicker.MinuteFlag = item.MinuteFlag;
             myTicker.SecondFlag = item.SecondFlag;
 
+            myTicker.PortraitY = item.PortraitY;
+
             myTicker.ImagePath = new Uri(item.PhotoFile, UriKind.RelativeOrAbsolute);
             return myTicker;
         }

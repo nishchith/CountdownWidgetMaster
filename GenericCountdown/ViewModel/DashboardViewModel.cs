@@ -19,6 +19,28 @@ namespace GenericCountdown.ViewModel
 
         string DBConnectionString = "Data Source=isostore:/CountdownDB.sdf";
 
+        public const string CurrentCountdownItemPropertyName = "CurrentCountdownItem";
+        private CountdownItem _currentCountdownItem;
+        public CountdownItem CurrentCountdownItem
+        {
+            get
+            {
+                return _currentCountdownItem;
+            }
+
+            set
+            {
+                if (_currentCountdownItem == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(CurrentCountdownItemPropertyName);
+                _currentCountdownItem = value;
+                RaisePropertyChanged(CurrentCountdownItemPropertyName);
+            }
+        }
+
         private Ticker _myCurrentTickerItem;
         public Ticker MyCurrentTickerItem
         {
@@ -30,10 +52,16 @@ namespace GenericCountdown.ViewModel
             }
         }
 
+        public double TransformPortraitY { get; set; }
+
         public DashboardViewModel()
         {
             PopulateDatabase();
+
+            CurrentCountdownItem = ViewModelLocator.AllCountdownItems.ElementAtOrDefault(ViewModelLocator.CountdownItemIndex);
+
             LoadCurrentItems();
+
         }
 
         public void PopulateDatabase()
@@ -71,7 +99,8 @@ namespace GenericCountdown.ViewModel
 
         public void LoadCurrentItems(int index = 0)
         {
-            MyCurrentTickerItem = ViewModelLocator.BuildTicker(ViewModelLocator.AllCountdownItems.ElementAtOrDefault(ViewModelLocator.CountdownItemIndex));
+            
+            MyCurrentTickerItem = ViewModelLocator.BuildTicker(CurrentCountdownItem);
         }
 
         public void AsyncTicker()

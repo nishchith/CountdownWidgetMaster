@@ -13,12 +13,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 using GoogleAds;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace GenericCountdown.View
 {
     public partial class Dashboard : PhoneApplicationPage
     {
         DashboardViewModel viewModel = null;
+
 
         public Dashboard()
         {
@@ -27,8 +29,35 @@ namespace GenericCountdown.View
             viewModel = this.DataContext as DashboardViewModel;
 
             SetupAdMob();
+
+            this.ManipulationStarted += MainPage_ManipulationStarted; 
+            this.ManipulationDelta += MainPage_ManipulationDelta; 
+            this.ManipulationCompleted += MainPage_ManipulationCompleted;
         }
 
+        // user has started manipulation, change outline to red 
+        private void MainPage_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            Grid tupple = e.ManipulationContainer as Grid;
+        }
+        // element is being dragged, provide new translate coordinates 
+        void MainPage_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            Grid tupple = e.ManipulationContainer as Grid;
+            if (tupple != null)
+            {
+                TranslateTransform transform = tupple.RenderTransform as TranslateTransform;
+                transform.Y += e.DeltaManipulation.Translation.Y;
+            }
+        }
+        // element is dropped, make the outline transparent 
+        void MainPage_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            Grid tupple = e.ManipulationContainer as Grid;
+
+            TranslateTransform transform = tupple.RenderTransform as TranslateTransform;
+            viewModel.TransformPortraitY= transform.Y;
+        }
         private void SetupAdMob()
         {
             AdRequest adRequest = new AdRequest();
@@ -144,7 +173,8 @@ namespace GenericCountdown.View
 
             //MusicMediaElement.Stop();
             //MusicMediaElement.Position = System.TimeSpan.FromSeconds(0); 
-
+            viewModel.CurrentCountdownItem.PortraitY = viewModel.TransformPortraitY;
+            ViewModelLocator.SaveCountdown();
             base.OnNavigatedFrom(e);
         }
 
@@ -158,5 +188,6 @@ namespace GenericCountdown.View
             //MusicMediaElement.Play();
             //MessageBox.Show("Media opened");
         }
+
     }
 }
