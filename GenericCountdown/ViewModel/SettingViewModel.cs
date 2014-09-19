@@ -128,29 +128,6 @@ namespace GenericCountdown.ViewModel
             //PopulateSelectedUnits();
         }
 
-        //public void PopulateSelectedUnits()
-        //{
-        //    SelectedUnits = new ObservableCollection<object>();
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Random" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Years" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Months" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Weeks" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Days" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Hours" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Minutes" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Seconds" });
-        //    if (SelectedCountdown.YearFlag)
-        //        SelectedUnits.Add(new Units() { Name = "Hearbeats" });
-        //}
-
         public void PopulateUnits()
         {
             AllUnits = new List<Units>();
@@ -162,7 +139,7 @@ namespace GenericCountdown.ViewModel
             AllUnits.Add(new Units() { Name = "Hours" });
             AllUnits.Add(new Units() { Name = "Minutes" });
             AllUnits.Add(new Units() { Name = "Seconds" });
-            AllUnits.Add(new Units() { Name = "Hearbeats" });
+            AllUnits.Add(new Units() { Name = "Heartbeats" });
         }
 
         public void PopulateImages()

@@ -330,6 +330,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0" 
@@ -337,6 +338,7 @@
                                    Margin="12,0,12,0"/>
 
                         <ListBox Grid.Row="1"
+                                 Margin="12,0,12,0"
                                  x:Name="PhotoPicker"
                                  SelectionMode="Single" 
                                  SelectionChanged="PhotoPicker_SelectionChanged"
@@ -363,14 +365,22 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
 
-                        <TextBlock Grid.Row="2" 
+                        <!--<TextBlock Grid.Row="2" 
                                    Text="From Photo Library" 
-                                   Margin="12,0,12,0"/>
+                                   Margin="12,0,12,0"/>-->
 
-                        <TextBox Grid.Row="3" 
+                        <Button Grid.Row="3" 
+                                 x:Name="PhotoLibraryPicker"
+                                Content="From Photo Library"
+                                 Click="PhotoLibraryPicker_Click"/>
+                        <Image x:Name="LibrImage" Grid.Row="4" 
+                               Height="100" 
+                               Width="80"/>
+                        
+                        <!--<TextBox Grid.Row="3" 
                                  x:Name="PhotoLibraryPicker"
                                  Tap="PhotoLibraryPicker_Tap"
-                                 Text="{Binding SelectedImage, Mode=TwoWay}"/>
+                                 Text="{Binding SelectedImage, Mode=TwoWay}"/>-->
 
                     </Grid>
                 </ScrollViewer>

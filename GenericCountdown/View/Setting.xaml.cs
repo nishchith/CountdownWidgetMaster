@@ -65,11 +65,22 @@ namespace GenericCountdown.View
                     BitmapImage image = new BitmapImage();
                     image.SetSource(e.ChosenPhoto);
 
+
+                    //LibrImage.Source = image;
+
+
                     ViewModelLocator.SelectedImage = image;
-                    //ViewModelLocator.SelectedImage = new BitmapImage(new Uri(e.OriginalFileName, UriKind.RelativeOrAbsolute));
-                    //ViewModelLocator.SelectedImage.SetSource(e.ChosenPhoto);
-                    ViewModelLocator.CurrentCountdownItem.PhotoFile = e.OriginalFileName;
-                    PhotoLibraryPicker.Text = e.OriginalFileName;
+                    viewModel.SelectedCountdown.PhotoFile = ViewModelLocator.SelectedImage.UriSource.ToString();
+
+                    //LibrImage.Source = new BitmapImage(e.OriginalFileName);
+
+                    
+
+                    //ViewModelLocator.SelectedImage = image;
+                    ////ViewModelLocator.SelectedImage = new BitmapImage(new Uri(e.OriginalFileName, UriKind.RelativeOrAbsolute));
+                    ////ViewModelLocator.SelectedImage.SetSource(e.ChosenPhoto);
+                    //ViewModelLocator.CurrentCountdownItem.PhotoFile = e.OriginalFileName;
+                    //PhotoLibraryPicker.Text = e.OriginalFileName;
                 }
             }
             catch (Exception)
@@ -119,17 +130,17 @@ namespace GenericCountdown.View
             
 
         //}
-        private void PhotoLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            try
-            {
-                photoChooserTask.Show();
-            }
-            catch (Exception)
-            {
+        //private void PhotoLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    try
+        //    {
+        //        photoChooserTask.Show();
+        //    }
+        //    catch (Exception)
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -325,6 +336,18 @@ namespace GenericCountdown.View
 
                 //viewModel.CountdownItem.PhotoFile = viewModel.Images.ElementAt(PhotoPicker.SelectedIndex).ToString();
                 ////viewModel.MyRaisePorpertyChanged("CurrentCountdownItem");
+            }
+        }
+
+        private void PhotoLibraryPicker_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                photoChooserTask.Show();
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

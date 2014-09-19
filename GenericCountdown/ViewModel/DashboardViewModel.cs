@@ -99,8 +99,8 @@ namespace GenericCountdown.ViewModel
 
         public void LoadCurrentItems(int index = 0)
         {
-            
-            MyCurrentTickerItem = ViewModelLocator.BuildTicker(CurrentCountdownItem);
+
+            MyCurrentTickerItem = ViewModelLocator.BuildTicker(ViewModelLocator.AllCountdownItems.ElementAtOrDefault(ViewModelLocator.CountdownItemIndex));
         }
 
         public void AsyncTicker()

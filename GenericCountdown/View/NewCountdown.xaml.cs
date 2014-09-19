@@ -17,6 +17,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using GenericCountdown.Commons;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace GenericCountdown.View
 {
@@ -114,16 +115,31 @@ namespace GenericCountdown.View
             else
                 return "Select Unit";
         }
+
         private void appBarAddButton_Click(object sender, EventArgs e)
         {
-            UpdateChangesToObject();
-            viewModel.AddCountdownItem();
+            try
+            {
+                UpdateChangesToObject();
+                viewModel.AddCountdownItem();
 
-            App.FileOpenPickerContinuationEventArgs = null;
+                App.FileOpenPickerContinuationEventArgs = null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                viewModel = null;
+            }
 
             // Return to the main page.
             if (NavigationService.CanGoBack)
             {
+                SimpleIoc.Default.Unregister<NewCountdownViewModel>();
+                SimpleIoc.Default.Register<NewCountdownViewModel>();
+
                 NavigationService.GoBack();
             }
         }
@@ -133,6 +149,9 @@ namespace GenericCountdown.View
             // Return to the main page.
             if (NavigationService.CanGoBack)
             {
+                SimpleIoc.Default.Unregister<NewCountdownViewModel>();
+                SimpleIoc.Default.Register<NewCountdownViewModel>();
+
                 NavigationService.GoBack();
             }
         }
@@ -148,6 +167,7 @@ namespace GenericCountdown.View
             }
 
         }
+
         private void PhotoPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender != null && PhotoPicker.SelectedItem != null)
@@ -155,6 +175,7 @@ namespace GenericCountdown.View
                 viewModel.NewCountdownItem.PhotoFile = ViewModelLocator.ImageCollection.ElementAt(PhotoPicker.SelectedIndex).ToString(); 
             }
         }
+
         private void PhotoLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             try
@@ -166,6 +187,7 @@ namespace GenericCountdown.View
 
             }
         }
+
         private void MusicLibraryPicker_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             try
@@ -178,6 +200,7 @@ namespace GenericCountdown.View
 
             }
         }
+
         private void UpdateChangesToObject()
         {
             // Get the full collection of items:
@@ -233,6 +256,14 @@ namespace GenericCountdown.View
             }
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            SimpleIoc.Default.Unregister<NewCountdownViewModel>();
+            SimpleIoc.Default.Register<NewCountdownViewModel>();
+
+            base.OnBackKeyPress(e);
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -277,6 +308,7 @@ namespace GenericCountdown.View
                 //OutputTextBlock.Text = "Operation cancelled.";
             }
         }
+
         //private static async Task<BitmapImage> LoadImage(StorageFile file)
         //{
         //    BitmapImage bitmapImage = new BitmapImage();

@@ -54,9 +54,11 @@ namespace GenericCountdown.View
         void MainPage_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             Grid tupple = e.ManipulationContainer as Grid;
-
-            TranslateTransform transform = tupple.RenderTransform as TranslateTransform;
-            viewModel.TransformPortraitY= transform.Y;
+            //if (tupple != null)
+            //{
+            //    TranslateTransform transform = tupple.RenderTransform as TranslateTransform;
+            //    viewModel.TransformPortraitY = transform.Y;
+            //}
         }
         private void SetupAdMob()
         {
@@ -107,6 +109,7 @@ namespace GenericCountdown.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            viewModel.LoadCurrentItems();
             viewModel.AsyncTicker();
 
             //if (ViewModelLocator.SelectedImage == null)
@@ -173,7 +176,8 @@ namespace GenericCountdown.View
 
             //MusicMediaElement.Stop();
             //MusicMediaElement.Position = System.TimeSpan.FromSeconds(0); 
-            viewModel.CurrentCountdownItem.PortraitY = viewModel.TransformPortraitY;
+
+            //viewModel.CurrentCountdownItem.PortraitY = viewModel.TransformPortraitY;
             ViewModelLocator.SaveCountdown();
             base.OnNavigatedFrom(e);
         }

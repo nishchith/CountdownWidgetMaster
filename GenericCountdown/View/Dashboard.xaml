@@ -98,10 +98,9 @@
         <!--<Button.RenderTransform>
                     <TranslateTransform />
                 </Button.RenderTransform>-->
-        <Grid HorizontalAlignment="Center" 
-			        Width="480"
-			        Background="#FFAE0101" 
-                  Canvas.Top="{Binding Dashboard.TransformPortraitY, Mode=TwoWay,Source={StaticResource Locator}}" 
+        <Grid HorizontalAlignment="Center"
+              Width="480"
+              Background="#FFAE0101" 
               RenderTransformOrigin="0,0">
 
             <Grid.RowDefinitions>
@@ -165,7 +164,7 @@
 				HorizontalAlignment="Center" TextWrapping="Wrap"/>
 
             <Grid.RenderTransform>
-                <CompositeTransform/>
+                <TranslateTransform/>
             </Grid.RenderTransform>
         </Grid>
         <!--</Button>-->
