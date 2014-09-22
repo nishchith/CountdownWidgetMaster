@@ -20,20 +20,20 @@
 
 
     <phone:PhoneApplicationPage.Resources>
-        <common:SmartListPicker x:Key="SmartListPicker"/>
+        <common:SmartListPicker x:Key="SmartListPicker"/>   
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-        <DataTemplate x:Name="PickerItemTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
+        <!--<DataTemplate x:Name="PickerItemTemplate">
+            <StackPanel Orientation="Horizontal" Tap="StackPanel_Tap">
+                <TextBlock Text="{Binding Name}" Tap="UnitItem_Tap" Style="{StaticResource PhoneTextNormalStyle}"/>
             </StackPanel>
-        </DataTemplate>
+        </DataTemplate>-->
         
-        <DataTemplate x:Name="PickerFullModeItemTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}"/>
+        <!--<DataTemplate x:Name="UnitPickerFullModeItemTemplate">
+            <StackPanel Orientation="Horizontal" Tap="StackPanel_Tap" Hold="StackPanel_Hold">
+                <TextBlock Text="{Binding Name}" Tap="UnitItem_Tap" Style="{StaticResource PhoneTextNormalStyle}" GotFocus="TextBlock_GotFocus" MouseEnter="TextBlock_MouseEnter"/>
             </StackPanel>
-        </DataTemplate>
+        </DataTemplate>-->
 
         <ControlTemplate x:Key="ListPickerControlTemplate1" TargetType="toolkit:ListPicker">
             <StackPanel>
@@ -282,21 +282,97 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="Units" Margin="12,0,12,0"/>
+                    <TextBlock Grid.Row="0" Text="Time Units" Margin="12,0,12,0"/>
 
+                    <Button Grid.Row="1" 
+                            x:Name="UnitListPicker"
+                            Click="UnitListPicker_Click" 
+                            HorizontalContentAlignment="Left"/>
+
+                    <TextBlock Grid.Row="2" Text="Heartbeats" Margin="12,0,12,0"/>
+                    
+                    <toolkit:PhoneTextBox Grid.Row="3" 
+                                          Text="{Binding HeartbeatCount,Mode=TwoWay}"
+                                          IsEnabled="{Binding HeartbeatFlag}"
+                                          MaxLength="35" /> 
+
+                    <!--
+                    
+                    
+                    
+                    
+                    
+                    
                     <common:SmartListPicker Grid.Row="1" 
                                             Margin="10,0,10,10" 
                                             x:Name="unitListPicker" 
-                                            SelectionMode="Multiple" 
+                                            SelectionChanged="unitListPicker_SelectionChanged"
+                                            SelectionMode="Multiple"
                                             ItemsSource="{Binding Setting.AllUnits, Source={StaticResource Locator}}"
                                             SelectedItems="{Binding Setting.SelectedUnits, Source={StaticResource Locator}, Mode=TwoWay}"
                                             FullModeHeader="Choose Units" 
-                                            ItemTemplate="{StaticResource PickerItemTemplate}" 
-                                            FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"/>
+                                            FullModeItemTemplate="{StaticResource UnitPickerFullModeItemTemplate}"/>-->
+                    
+                    
+                    <!--<TextBlock Grid.Row="2" 
+                                   Text="Play On Start" 
+                                   x:Name="bgPic"
+                                   Margin="12,0,12,0"/>
+                    
+                    <toolkit:ToggleSwitch Grid.Row="3" 
+                                          IsChecked="{Binding Music, Mode=TwoWay}"/>-->
 
-                    <!--<toolkit:ListPicker Height="100" 
+
+                    <!--<ListBox x:Name="lstStudentSelect"  
+                             ItemContainerStyle="{StaticResource ListBoxItemStyle1}" 
+                             Background="Transparent" 
+                             ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                             Height="487" 
+                             BorderThickness="0"  
+                             VerticalAlignment="Top" 
+                             Margin="8,198,10,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel   Orientation="Horizontal">
+                                    <StackPanel Width="360" Orientation="Horizontal" 
+                                                HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding stunum}" Width="80"   
+                                                   Foreground="Black"  TextWrapping="Wrap"  
+                                                   FontSize="20" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel Width="5"></StackPanel>
+                                    <StackPanel Width="150" 
+                                                Orientation="Horizontal" 
+                                                HorizontalAlignment="Right">
+                                        <CheckBox  IsChecked="{Binding ChkFlag, Mode=TwoWay}"  
+                                                   BorderBrush="#203485" Foreground="Black" 
+                                                   BorderThickness="1" Tag="{Binding cusnum}" 
+                                                   Name="cusCheck" 
+                                                   Checked="cusCheck_Checked_2" 
+                                                   Unchecked="cusCheck_Unchecked_2" ></CheckBox>
+                                        <TextBlock Text=" "  
+                                                   TextWrapping="Wrap" 
+                                                   Foreground="Black" 
+                                                   FontSize="20" 
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>-->
+
+
+                    <!--
+                    
+                    
+                                            ItemTemplate="{StaticResource PickerItemTemplate}" 
+                    
+                    <toolkit:ListPicker Height="100" 
                                         HorizontalAlignment="Left" 
                                         Margin="9,109,0,0" 
                                         x:Name="listPicker1" 
@@ -386,7 +462,7 @@
                 </ScrollViewer>
             </phone:PanoramaItem>
 
-            <phone:PanoramaItem Header="Set Music">
+            <!--<phone:PanoramaItem Header="Set Music">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -410,7 +486,7 @@
                                  Tap="MusicLibraryPicker_Tap"
                                  Text="{Binding MusicFile, Mode=TwoWay}"/>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PanoramaItem>-->
         </phone:Panorama>
 
         

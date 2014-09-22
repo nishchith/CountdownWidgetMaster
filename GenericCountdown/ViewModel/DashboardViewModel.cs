@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows;
 using System.Threading;
+using System.Windows.Media.Imaging;
+using Windows.Storage;
+using System.IO;
 
 namespace GenericCountdown.ViewModel
 {
@@ -85,7 +88,7 @@ namespace GenericCountdown.ViewModel
                         MonthFlag = true,
                         MinuteFlag = true,
                         SecondFlag = true,
-                        PhotoFile = "/Assets/Images/default_portrait_05.png"
+                        PhotoFile = ViewModelLocator.ImageCollection.ElementAt(4).ToString()
                     };
 
                     db.CountdownTable.InsertOnSubmit(defaultItem);
@@ -99,8 +102,39 @@ namespace GenericCountdown.ViewModel
 
         public void LoadCurrentItems(int index = 0)
         {
-
             MyCurrentTickerItem = ViewModelLocator.BuildTicker(ViewModelLocator.AllCountdownItems.ElementAtOrDefault(ViewModelLocator.CountdownItemIndex));
+            LoadTickerImage();
+        }
+
+        public void LoadTickerImage()
+        {
+
+            //MyCurrentTickerItem.ImagePath = new Uri(CurrentCountdownItem.PhotoFile, UriKind.RelativeOrAbsolute);
+
+            if (MyCurrentTickerItem.ImagePath == null) 
+                return;
+
+            //if (ViewModelLocator.ImageCollection.Contains(MyCurrentTickerItem.ImagePath))
+            //{
+            //    MyCurrentTickerItem.BitImage = new BitmapImage(MyCurrentTickerItem.ImagePath);
+            //}
+            //else
+            //{
+
+            //    MyCurrentTickerItem.BitImage = ViewModelLocator.GetImageFromIsolatedStorage(MyCurrentTickerItem.ImagePath.ToString());
+
+            //    //// how to read the data later
+            //    //StorageFile file2 = await ApplicationData.Current.LocalFolder.GetFileAsync(MyCurrentTickerItem.ImagePath.ToString());
+            //    //Stream imageStream = await file2.OpenStreamForReadAsync();
+
+            //    //// display the file as image
+            //    //BitmapImage bi = new BitmapImage();
+            //    //bi.SetSource(imageStream);
+            //    //MyCurrentTickerItem.BitImage = bi;
+            //    //// assign the bitmap to Image in XAML: <Image x:Name="img"/>
+            //    ////LibrImage.Source = bi;
+            //}
+            //= new Uri(item.PhotoFile, UriKind.RelativeOrAbsolute);
         }
 
         public void AsyncTicker()

@@ -23,7 +23,7 @@ namespace GenericCountdown.View
 {
     public partial class NewCountdown : PhoneApplicationPage
     {
-        //PhotoChooserTask photoChooserTask = null;
+        PhotoChooserTask photoChooserTask = null;
 
         NewCountdownViewModel viewModel = null;
 
@@ -35,20 +35,57 @@ namespace GenericCountdown.View
 
             // UI Control Events
             PhotoLibraryPicker.Click += new RoutedEventHandler(PhotoLibraryPicker_Click);
+
+            photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.Completed += photoChooserTask_Completed;
+
             unitListPicker.SummaryForSelectedItemsDelegate = SummarizeItems;
+        }
+
+        private void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            try
+            {
+                if (e.TaskResult == TaskResult.OK)
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.SetSource(e.ChosenPhoto);
+
+                    //LibrImage.Source = image;
+
+                    ViewModelLocator.SelectedImage = image;
+                    //viewModel.SelectedCountdown.PhotoFile = ViewModelLocator.SelectedImage.UriSource.ToString();
+
+                    //LibrImage.Source = new BitmapImage(e.OriginalFileName);
+
+
+
+                    //ViewModelLocator.SelectedImage = image;
+                    ////ViewModelLocator.SelectedImage = new BitmapImage(new Uri(e.OriginalFileName, UriKind.RelativeOrAbsolute));
+                    ////ViewModelLocator.SelectedImage.SetSource(e.ChosenPhoto);
+                    //ViewModelLocator.CurrentCountdownItem.PhotoFile = e.OriginalFileName;
+                    //PhotoLibraryPicker.Text = e.OriginalFileName;
+                }
+            }
+            catch (Exception)
+            {
+                //Common.ShowMessageBox("Error occured while saving pic.");
+            }
         }
 
         private void PhotoLibraryPicker_Click(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            openPicker.FileTypeFilter.Add(".jpg");
-            openPicker.FileTypeFilter.Add(".jpeg");
-            openPicker.FileTypeFilter.Add(".png");
+            //FileOpenPicker openPicker = new FileOpenPicker();
+            //openPicker.ViewMode = PickerViewMode.Thumbnail;
+            //openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            //openPicker.FileTypeFilter.Add(".jpg");
+            //openPicker.FileTypeFilter.Add(".jpeg");
+            //openPicker.FileTypeFilter.Add(".png");
 
-            // Launch file open picker and caller app is suspended and may be terminated if required
-            openPicker.PickSingleFileAndContinue();
+            //// Launch file open picker and caller app is suspended and may be terminated if required
+            //openPicker.PickSingleFileAndContinue();
+
+            photoChooserTask.Show();
         }
 
         //public void ContinueFileOpenPicker(FileOpenPickerContinuationEventArgs args)
@@ -180,7 +217,7 @@ namespace GenericCountdown.View
         {
             try
             {
-                //photoChooserTask.Show();
+                photoChooserTask.Show();
             }
             catch (Exception)
             {
@@ -192,7 +229,7 @@ namespace GenericCountdown.View
         {
             try
             {
-                Uri MusicItem = new Uri("../Assets/Music/Sleep_Away.wma", UriKind.Relative);
+                Uri MusicItem = new Uri("/Assets/Music/Sleep_Away.wma", UriKind.Relative);
                 viewModel.NewCountdownItem.MusicFile = MusicItem.ToString();
             }
             catch (Exception exe)
@@ -204,56 +241,57 @@ namespace GenericCountdown.View
         private void UpdateChangesToObject()
         {
             // Get the full collection of items:
-            if (viewModel.SelectedUnits != null)
-            {
-                //viewModel.SelectedCountdown.RandomFlag	= false;
-                viewModel.NewCountdownItem.YearFlag = false;
-                viewModel.NewCountdownItem.MonthFlag = false;
-                viewModel.NewCountdownItem.WeekFlag = false;
-                viewModel.NewCountdownItem.DayFlag = false;
-                viewModel.NewCountdownItem.HourFlag = false;
-                viewModel.NewCountdownItem.MinuteFlag = false;
-                viewModel.NewCountdownItem.SecondFlag = false;
-                //viewModel.SelectedCountdown.HearbeatFlag 	= false;
 
-                foreach (var item in viewModel.SelectedUnits)
-                {
-                    var unit = item as Units;
+            //if (viewModel.SelectedUnits != null)
+            //{
+            //    //viewModel.SelectedCountdown.RandomFlag	= false;
+            //    viewModel.NewCountdownItem.YearFlag = false;
+            //    viewModel.NewCountdownItem.MonthFlag = false;
+            //    viewModel.NewCountdownItem.WeekFlag = false;
+            //    viewModel.NewCountdownItem.DayFlag = false;
+            //    viewModel.NewCountdownItem.HourFlag = false;
+            //    viewModel.NewCountdownItem.MinuteFlag = false;
+            //    viewModel.NewCountdownItem.SecondFlag = false;
+            //    //viewModel.SelectedCountdown.HearbeatFlag 	= false;
 
-                    switch (unit.Name)
-                    {
-                        case "Random":
-                            //viewModel.SelectedCountdown.RandomFlag = true;
-                            break;
-                        case "Years":
-                            viewModel.NewCountdownItem.YearFlag = true;
-                            break;
-                        case "Months":
-                            viewModel.NewCountdownItem.MonthFlag = true;
-                            break;
-                        case "Weeks":
-                            viewModel.NewCountdownItem.WeekFlag = true;
-                            break;
-                        case "Days":
-                            viewModel.NewCountdownItem.DayFlag = true;
-                            break;
-                        case "Hours":
-                            viewModel.NewCountdownItem.HourFlag = true;
-                            break;
-                        case "Minutes":
-                            viewModel.NewCountdownItem.MinuteFlag = true;
-                            break;
-                        case "Seconds":
-                            viewModel.NewCountdownItem.SecondFlag = true;
-                            break;
-                        case "Hearbeats":
-                            viewModel.NewCountdownItem.YearFlag = true;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+            //    foreach (var item in viewModel.SelectedUnits)
+            //    {
+            //        var unit = item as Units;
+
+            //        switch (unit.Name)
+            //        {
+            //            case "Random":
+            //                //viewModel.SelectedCountdown.RandomFlag = true;
+            //                break;
+            //            case "Years":
+            //                viewModel.NewCountdownItem.YearFlag = true;
+            //                break;
+            //            case "Months":
+            //                viewModel.NewCountdownItem.MonthFlag = true;
+            //                break;
+            //            case "Weeks":
+            //                viewModel.NewCountdownItem.WeekFlag = true;
+            //                break;
+            //            case "Days":
+            //                viewModel.NewCountdownItem.DayFlag = true;
+            //                break;
+            //            case "Hours":
+            //                viewModel.NewCountdownItem.HourFlag = true;
+            //                break;
+            //            case "Minutes":
+            //                viewModel.NewCountdownItem.MinuteFlag = true;
+            //                break;
+            //            case "Seconds":
+            //                viewModel.NewCountdownItem.SecondFlag = true;
+            //                break;
+            //            case "Hearbeats":
+            //                viewModel.NewCountdownItem.YearFlag = true;
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //    }
+            //}
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)

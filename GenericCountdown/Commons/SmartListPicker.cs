@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Phone.Controls;
 using System.Collections;
+using System.Collections.Specialized;
 
 namespace GenericCountdown.Commons
 {
@@ -24,5 +25,6 @@ namespace GenericCountdown.Commons
                 base.SetValue(SelectedItemsProperty, value);
             }
         }
+
     }
 }

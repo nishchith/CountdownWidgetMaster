@@ -146,14 +146,14 @@ namespace GenericCountdown.ViewModel
         {
             Images = new List<Uri>
             {
-                new Uri("../Assets/Images/default_portrait_01.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_portrait_02.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_portrait_03.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_portrait_04.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_portrait_05.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_landscape_01.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_landscape_02.png", UriKind.Relative),
-                new Uri("../Assets/Images/default_landscape_03.png", UriKind.Relative)
+                new Uri("/Assets/Images/default_portrait_01.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_portrait_02.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_portrait_03.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_portrait_04.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_portrait_05.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_landscape_01.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_landscape_02.png", UriKind.Relative),
+                new Uri("/Assets/Images/default_landscape_03.png", UriKind.Relative)
             };
         }
 

@@ -110,6 +110,7 @@ namespace GenericCountdown.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             viewModel.LoadCurrentItems();
+            viewModel.LoadTickerImage();
             viewModel.AsyncTicker();
 
             //if (ViewModelLocator.SelectedImage == null)
@@ -136,6 +137,15 @@ namespace GenericCountdown.View
             //}
 
             //working code below
+
+            //if(1)
+            //{
+            //    //
+            //}
+            //else
+            //{
+            //    //
+            //}
             //this.BackgroundImage.Source = ViewModelLocator.SelectedImage;
 
             //viewModel.BgImagePath = new Uri(viewModel.MyCurrentCountdownItem.PhotoFile, UriKind.RelativeOrAbsolute);

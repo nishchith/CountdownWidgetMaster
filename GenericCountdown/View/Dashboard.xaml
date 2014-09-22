@@ -153,6 +153,11 @@
                     <TextBlock Text="{Binding Second}" FontSize="36" TextAlignment="Center"/>
                     <TextBlock Text="Seconds" FontSize="18" TextAlignment="Center"/>
                 </StackPanel>
+                <StackPanel Margin="4" 
+					Visibility="{Binding HeartbeatFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Heartbeat}" FontSize="36" TextAlignment="Center"/>
+                    <TextBlock Text="Heartbeats" FontSize="18" TextAlignment="Center"/>
+                </StackPanel>
 
             </StackPanel>
 

@@ -113,9 +113,6 @@
     <Compile Include="Model\CountdownItem.cs" />
     <Compile Include="Model\CountdownType.cs" />
     <Compile Include="Model\Ticker.cs" />
-    <Compile Include="Model\UnitItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Model\Units.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -127,7 +124,11 @@
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\NewCountdownViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
+    <Compile Include="ViewModel\UnitSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\Control\UnitSelector.xaml.cs">
+      <DependentUpon>UnitSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
@@ -147,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Control\UnitSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

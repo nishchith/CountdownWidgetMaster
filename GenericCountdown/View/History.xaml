@@ -39,49 +39,54 @@
                             <RowDefinition  />
                         </Grid.RowDefinitions>
 
-                        <!-- Ticker Units -->
-                        <StackPanel Grid.Row="0" 
+                    <!-- Ticker Units -->
+                    <StackPanel Grid.Row="0" 
 				                Orientation="Horizontal" 
                                 Margin="0 4 4 4"
 				                HorizontalAlignment="Center">
-                            <StackPanel Margin="4" 
+                        <StackPanel Margin="4" 
                                     Visibility="{Binding YearFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Year}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Years" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-					                Visibility="{Binding MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Month}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Months" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-                                    Visibility="{Binding WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Week}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Weeks" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-                                    Visibility="{Binding DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Day}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Days" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-                                    Visibility="{Binding HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Hour}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Hours" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-                                    Visibility="{Binding MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Minute}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Minutes" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Margin="4" 
-                                    Visibility="{Binding SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Second}" FontSize="24" TextAlignment="Center"/>
-                                <TextBlock Text="Seconds" FontSize="14" TextAlignment="Center"/>
-                            </StackPanel>
+                            <TextBlock Text="{Binding Year}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Years" FontSize="14" TextAlignment="Center"/>
                         </StackPanel>
+                        <StackPanel Margin="4" 
+					                Visibility="{Binding MonthFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Month}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Months" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding WeekFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Week}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Weeks" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding DayFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Day}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Days" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding HourFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Hour}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Hours" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding MinuteFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Minute}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Minutes" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding SecondFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Second}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Seconds" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="4" 
+                                    Visibility="{Binding HeartbeatFlag, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Heartbeat}" FontSize="24" TextAlignment="Center"/>
+                            <TextBlock Text="Heartbeats" FontSize="14" TextAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
 
-                        <TextBlock x:Name="EventTag" 
+                    <TextBlock x:Name="EventTag" 
                                FontSize="14" 
                                Text="{Binding Phrase}"
                                TextAlignment="Center"

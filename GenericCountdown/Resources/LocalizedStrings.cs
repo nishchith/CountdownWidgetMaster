@@ -1,6 +1,6 @@
 ﻿using GenericCountdown.Resources;
 
-namespace GenericCountdown
+namespace GenericCountdown.Resources
 {
     /// <summary>
     /// Provides access to string resources.
